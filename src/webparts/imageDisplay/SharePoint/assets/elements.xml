@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+        <Field Name="LinkTitle" ID="{82642ec8-ef9b-478f-acf9-31f7d45fbc31}" DisplayName="Name" Required="TRUE" Sealed="TRUE" Type="Calculated"/>
+        <Field Name="LinkTitleNoMenu" ID="{bc91a437-52e7-49e1-8c4e-4698904b2b6d}" DisplayName="Name" Required="TRUE" Sealed="TRUE" Type="Calculated"/>
+        <Field Name="Title" ID="{fa564e0f-0c70-4ab9-b863-0177e6ddd247}" DisplayName="Name" Sealed="TRUE" Required="TRUE" Type="Text"/>
+
+        <!-- <Field  ID="{9390D837-3F84-4302-B615-B204B998B9D6}"
+                Name="IMG_Type"
+                DisplayName="Image Type"
+                Type="Choice"
+                Required="TRUE"
+                Group="IMG Columns">
+            <CHOICES>
+                <CHOICE>URL</CHOICE>
+                <CHOICE>Base64</CHOICE>
+            </CHOICES>
+        <Field/>
+
+        <Field  ID="{2498EF03-A11D-41BC-B91C-FFF4F6EF9BCE}"
+                DisplayName="Imageurl"
+                Format="Image"
+                Title="Imageurl"
+                Type="URL"
+                StaticName="Imageurl"
+                Name="IMG_Picture"
+                Required="FALSE"
+                Group="IMG Columns" />
+
+
+        <ContentType ID="0x0100F4C266967DF54F5FAB9CDAA2A09D51C9"
+                Name="IMG source"
+                Group="IMG Display Content Types"
+                Description="Creates an image source for the Display Image webpart"
+                Inherits="TRUE"
+                Hidden="FALSE"
+                Version="0">
+                <FieldRefs>
+                        <FieldRef Name="LinkTitle" ID="{82642ec8-ef9b-478f-acf9-31f7d45fbc31}" DisplayName="Name" Required="TRUE" Sealed="TRUE"/>
+                        <FieldRef Name="LinkTitleNoMenu" ID="{bc91a437-52e7-49e1-8c4e-4698904b2b6d}" DisplayName="Name" Required="TRUE" Sealed="TRUE"/>
+                        <FieldRef Name="Title" ID="{fa564e0f-0c70-4ab9-b863-0177e6ddd247}" DisplayName="Name" Required="TRUE" Sealed="TRUE"/>
+                        <FieldRef ID="{9390D837-3F84-4302-B615-B204B998B9D6}" />
+                        <FieldRef ID="{2498EF03-A11D-41BC-B91C-FFF4F6EF9BCE}" />
+                </FieldRefs>
+        </ContentType> -->
+
+        <ListInstance
+                CustomSchema="schema.xml"
+                FeatureId="00bfea71-de22-43b2-a848-c05709900100"
+                Title="Image Source Library"
+                Description="Source Images"
+                TemplateType="109"
+                Url="Lists/ImageSource">
+        </ListInstance>
+</Elements>
