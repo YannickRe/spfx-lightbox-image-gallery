@@ -11,4 +11,5 @@ export interface IImageDisplayProps {
   containerWidth: string;
   containerHeight: string;
   breadCrumb: IBreadcrumbItem[];
+  dataUpdate: (folder:IFolderInfo) => void;
 }

@@ -18,7 +18,7 @@ export default class Gallery extends React.Component<IGalleryProps, {}> {
 
   public render(): React.ReactElement<IGalleryProps> {
     return (
-      <div style={this.gridSize}>
+      <div className="maingrid" style={this.gridSize}>
         <div className={styles["image-list"]}>
           {
             this.props.photos.map((_photo) => {

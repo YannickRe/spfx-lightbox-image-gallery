@@ -60,7 +60,8 @@ export default class ImageDisplayWebPart extends BaseClientSideWebPart <IImageDi
         photos: this._photos,
         containerWidth: this._containerHeight,
         containerHeight: this._containerWidth,
-        show: true
+        show: true,
+        dataUpdate: this.updateImageData.bind(this)
       }
     );
 
@@ -123,7 +124,6 @@ export default class ImageDisplayWebPart extends BaseClientSideWebPart <IImageDi
   
 
   protected onPropertyPaneFieldChanged(propertyPath: string, oldValue: any, newValue: any): void {
-    debugger;
     if (propertyPath === 'containerHeight' && (newValue != oldValue)) {
       // this.properties.selectedUser = undefined;
       console.log(this.properties["containerHeight"]);
@@ -154,6 +154,15 @@ export default class ImageDisplayWebPart extends BaseClientSideWebPart <IImageDi
 
     super.onPropertyPaneFieldChanged(propertyPath, oldValue, newValue);
     // this.render();
+  }
+
+  private updateImageData(folder: IFolderInfo){
+    this.DataService.getPicturesFolder(folder.ServerRelativeUrl).then((treeData: ITreeBody) => {
+      this._folders = treeData.folders;
+      this._breadCrumb = treeData.breadcrumb;
+      this._photos = treeData.photos;
+      this.render();
+    });
   }
 
 

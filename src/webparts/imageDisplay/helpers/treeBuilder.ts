@@ -4,10 +4,9 @@ import { ITreeBody } from "../interfaces/treeBody.interface";
 
 import { IBreadcrumbItem } from "office-ui-fabric-react/lib/Breadcrumb";
 
+export default class TreeBuilder {
 
-export default abstract class TreeBuilder {
-
-    public static buildImageTree(folders: IFolderInfo[], files: IFileInfo[], pageurl: string) : Promise<any>{
+    public buildImageTree(folders: IFolderInfo[], files: IFileInfo[], pageurl: string) : Promise<any>{
         
         let bodyObject: ITreeBody = {
             folders: [], 
@@ -35,5 +34,6 @@ export default abstract class TreeBuilder {
         // let returnData = Object.assign({}, ...bodyObject); 
         return Promise.resolve(bodyObject);
     }
+
 }
 

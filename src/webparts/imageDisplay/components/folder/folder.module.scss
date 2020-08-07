@@ -1,0 +1,40 @@
+.folderMain{
+    position: inherit;
+    display: flex;
+
+    .folderContainer{
+        position: relative;
+        .folderFront {
+            position: absolute;
+            left: 0;
+        }
+
+        .folderPaper{
+            background-color: whitesmoke;
+            width: 50%;
+            height: 50%;
+            position: absolute;
+            left: 10%;
+            border-radius: 5px;
+        }
+
+        .folderPaperDown{
+            top: 15%;
+        }
+
+        .folderPaperUp{
+            top: 10%;
+        }
+
+        .folderInfo{
+            position: absolute;
+            color: #bf5712;
+            width: 50%;
+            left: 10%;
+            bottom: 15%;
+        }
+    }
+    
+    
+}
+

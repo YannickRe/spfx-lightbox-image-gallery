@@ -10,7 +10,11 @@ import TreeBuilder from "../helpers/treeBuilder";
 import { ITreeBody } from "../interfaces/treeBody.interface";
 
 export default class DataService implements IDataService {
-    constructor(protected context: WebPartContext){}
+    private _treeBuilder: TreeBuilder;
+
+    constructor(protected context: WebPartContext){
+      this._treeBuilder = new TreeBuilder();
+    }
 
     public checkIfListAlreadyExists(listName: string): Promise<boolean> {
       return sp.web.lists.getByTitle(listName).get().then((listResult) => {
@@ -72,7 +76,7 @@ export default class DataService implements IDataService {
       return Promise.all([foldersPromise, filesPromise]).then((values) => {
         console.log(values);
         let pageurl = this.context.pageContext.web.absoluteUrl + "/" + listName + "/";
-        return TreeBuilder.buildImageTree(values[0].folders, values[1].files, pageurl).then((body: ITreeBody) => {
+        return this._treeBuilder.buildImageTree(values[0].folders, values[1].files, pageurl).then((body: ITreeBody) => {
           console.log(body);
           return Promise.resolve(body);
         });

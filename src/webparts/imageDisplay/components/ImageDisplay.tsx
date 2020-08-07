@@ -34,6 +34,7 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
     };
 
     this.setGallerystate = this.setGallerystate.bind(this);
+    this.selectedFolderData = this.selectedFolderData.bind(this);
   }  
 
   public render(): React.ReactElement<IImageDisplayProps> {
@@ -42,8 +43,8 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
         <div>
           <Breadcrumb items={this.state.breadCrumbState}></Breadcrumb>
         </div>
-        <div>
-          <FolderIcon items={this.state.folderState}></FolderIcon>
+        <div >
+          <FolderIcon items={this.state.folderState} folderClicked={this.selectedFolderData}></FolderIcon>
         </div>
         <DefaultButton text="Open Gallery" onClick={this.setGallerystate} />
         <ReactBnbGallery  
@@ -56,34 +57,35 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
     );
   }
 
+  private selectedFolderData(folderData: IFolderInfo) {
+    this.props.dataUpdate(folderData);
+  }
+
   componentWillReceiveProps(nextProps) {
     if(this.props.breadCrumb != nextProps.breadCrumb) {
       let updateBreadcrumb = nextProps.breadCrumb;
       this.setState((state) => {
         const _breadCrumbState = [...updateBreadcrumb, ...state.breadCrumbState];
         return {
-          isOpen: state.isOpen,
           breadCrumbState: _breadCrumbState
         };
       });
     }
     if(this.props.folders != nextProps.folders) {
-      let updateFolders = nextProps.folders;
+      // let updateFolders = nextProps.folders;
       this.setState((state) => {
-        const _folderState = [...updateFolders, ...state.folderState];
+        // const _folderState = [...updateFolders, []];
         return {
-          isOpen: state.isOpen,
-          folderState: _folderState
+          folderState: nextProps.folders
         };
       });
     }
     if(this.props.photos != nextProps.photos) {
-      let updatePhotos = nextProps.photos;
+      // let updatePhotos = nextProps.photos;
       this.setState((state) => {
-        const _photoState = [...updatePhotos, ...state.photosState];
+        // const _photoState = [...updatePhotos, []];
         return {
-          isOpen: state.isOpen,
-          photosState: _photoState
+          photosState: nextProps.photos
         };
       });
     }
