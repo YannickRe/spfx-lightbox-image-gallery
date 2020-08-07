@@ -11,14 +11,15 @@ export default class TreeBuilder {
         let bodyObject: ITreeBody = {
             folders: [], 
             photos: [], 
-            breadcrumb: []};
+            // breadcrumb: []
+        };
 
         // { text: 'Files', key: 'Files', onClick: _onBreadcrumbItemClicked },
 
         folders.forEach((folder, i) => {
             // IsWOPIEnabled = false => only folders that users created
             if(!folder.IsWOPIEnabled && folder.ItemCount > 0){
-                bodyObject.breadcrumb.push({text: folder.Name, key:i.toString(), onClick: (ev: React.MouseEvent<HTMLElement>, item: IBreadcrumbItem) => { console.log(`Breadcrumb item with key "${item.text}" has been clicked.`); }});
+                // bodyObject.breadcrumb.push({text: folder.Name, key:i.toString(), onClick: (ev: React.MouseEvent<HTMLElement>, item: IBreadcrumbItem) => { console.log(`Breadcrumb item with key "${item.text}" has been clicked.`); }});
                 bodyObject.folders.push(folder);
             }
         });

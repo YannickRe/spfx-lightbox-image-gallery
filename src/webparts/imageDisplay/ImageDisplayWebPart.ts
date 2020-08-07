@@ -55,7 +55,7 @@ export default class ImageDisplayWebPart extends BaseClientSideWebPart <IImageDi
       ImageDisplay,
       {
         folders: this._folders,
-        breadCrumb: this._breadCrumb,
+        // breadCrumb: this._breadCrumb,
         picLib: this._picLib,
         photos: this._photos,
         containerWidth: this._containerHeight,
@@ -145,7 +145,7 @@ export default class ImageDisplayWebPart extends BaseClientSideWebPart <IImageDi
         this._picLib = this.properties["PicturesURL"];
         this.DataService.getPicturesFolder(this.properties["PicturesURL"]).then((treeData: ITreeBody) => {
           this._folders = treeData.folders;
-          this._breadCrumb = treeData.breadcrumb;
+          // this._breadCrumb = treeData.breadcrumb;
           this._photos = treeData.photos;
           this.render();
         });
@@ -159,7 +159,7 @@ export default class ImageDisplayWebPart extends BaseClientSideWebPart <IImageDi
   private updateImageData(folder: IFolderInfo){
     this.DataService.getPicturesFolder(folder.ServerRelativeUrl).then((treeData: ITreeBody) => {
       this._folders = treeData.folders;
-      this._breadCrumb = treeData.breadcrumb;
+      // this._breadCrumb = treeData.breadcrumb;
       this._photos = treeData.photos;
       this.render();
     });

@@ -6,5 +6,5 @@ import { Photo } from "react-bnb-gallery";
 export interface ITreeBody {
     folders: IFolderInfo[];
     photos: Photo[];
-    breadcrumb: IBreadcrumbItem[];
+    // breadcrumb: IBreadcrumbItem[];
 }

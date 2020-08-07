@@ -26,7 +26,7 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
   
     this.state = {  
       isOpen: this.props.show,
-      breadCrumbState: [],
+      breadCrumbState: [{text: "root", key:"0", onClick: (ev: React.MouseEvent<HTMLElement>, item: IBreadcrumbItem) => { this.selectedBreadCrumb(`Breadcrumb item with key "${item.text}" has been clicked.`)}}],
       folderState: [],
       photosState: [],
       containerWidthState: "",
@@ -35,6 +35,7 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
 
     this.setGallerystate = this.setGallerystate.bind(this);
     this.selectedFolderData = this.selectedFolderData.bind(this);
+    this.selectedBreadCrumb = this.selectedBreadCrumb.bind(this);
   }  
 
   public render(): React.ReactElement<IImageDisplayProps> {
@@ -59,6 +60,10 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
 
   private selectedFolderData(folderData: IFolderInfo) {
     this.props.dataUpdate(folderData);
+  }
+
+  private selectedBreadCrumb(key: string) {
+    console.log(key);
   }
 
   componentWillReceiveProps(nextProps) {
