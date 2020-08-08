@@ -4,6 +4,7 @@ import { IBreadcrumbItem } from 'office-ui-fabric-react';
 
 export interface IImageDisplayProps {
   picLib: string;
+  rootUrl: string;
   onclose: any;
   show: boolean;
   photos: Photo[];
@@ -11,5 +12,5 @@ export interface IImageDisplayProps {
   containerWidth: string;
   containerHeight: string;
   breadCrumb: IBreadcrumbItem[];
-  dataUpdate: (folder:IFolderInfo) => void;
+  dataUpdate: (folder:string) => void;
 }

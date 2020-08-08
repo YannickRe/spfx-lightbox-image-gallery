@@ -6,12 +6,13 @@ import ReactBnbGallery, { Photo } from 'react-bnb-gallery';
 import Gallery from './gallery/gallery';
 import { IFolderInfo } from '@pnp/sp/folders';
 import FolderIcon  from './folder/folder';
-import { Breadcrumb, IBreadcrumbData, IBreadcrumbItem, DefaultButton } from 'office-ui-fabric-react';
+import { Breadcrumb, DefaultButton } from 'office-ui-fabric-react';
+import { breadCrumbItem } from '../interfaces/breadCrumbItem.interface';
 
 
 export interface IImageDisplayState {
   isOpen : boolean;
-  breadCrumbState: IBreadcrumbItem[];
+  breadCrumbState: breadCrumbItem[];
   folderState: any[];
   photosState: Photo[];
   containerWidthState: string;
@@ -26,7 +27,7 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
   
     this.state = {  
       isOpen: this.props.show,
-      breadCrumbState: [{text: "root", key:"0", onClick: (ev: React.MouseEvent<HTMLElement>, item: IBreadcrumbItem) => { this.selectedBreadCrumb(`Breadcrumb item with key "${item.text}" has been clicked.`)}}],
+      breadCrumbState: [],
       folderState: [],
       photosState: [],
       containerWidthState: "",
@@ -59,11 +60,29 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
   }
 
   private selectedFolderData(folderData: IFolderInfo) {
-    this.props.dataUpdate(folderData);
+    this.setState((state) => {
+      const _breadCrumbState = [...state.breadCrumbState, {text: folderData.Name, key:folderData.UniqueId, relativefolderUrl: folderData.ServerRelativeUrl ,onClick: (ev: React.MouseEvent<HTMLElement>, item: breadCrumbItem) => { this.selectedBreadCrumb(item)}}];
+      return {
+        breadCrumbState: _breadCrumbState
+      };
+    });
+    this.props.dataUpdate(folderData.ServerRelativeUrl);
   }
 
-  private selectedBreadCrumb(key: string) {
-    console.log(key);
+  private selectedBreadCrumb(breadCrumbfolder: breadCrumbItem) {
+    let clickedItemIndex: number;
+    this.state.breadCrumbState.forEach((breadCrumb, index) => {
+      if(breadCrumb.key === breadCrumbfolder.key){
+        clickedItemIndex = index;
+      }
+    });
+    let _array = this.state.breadCrumbState.slice(clickedItemIndex, (this.state.breadCrumbState.length-clickedItemIndex)-1);
+    this.setState((state) => {
+      return {
+        breadCrumbState: _array
+      };
+    });
+    this.props.dataUpdate(_array[_array.length - 1].relativefolderUrl);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -91,6 +110,13 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
         // const _photoState = [...updatePhotos, []];
         return {
           photosState: nextProps.photos
+        };
+      });
+    }
+    if(this.props.picLib != nextProps.picLib) {
+      this.setState((state) => {
+        return {
+          breadCrumbState: [{text: nextProps.picLib, key:"0", relativefolderUrl: `${this.props.rootUrl}/${nextProps.picLib}` ,onClick: (ev: React.MouseEvent<HTMLElement>, item: breadCrumbItem) => { this.selectedBreadCrumb(item)}}]
         };
       });
     }
