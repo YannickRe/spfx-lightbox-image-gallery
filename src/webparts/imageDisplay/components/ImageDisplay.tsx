@@ -70,19 +70,23 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
   }
 
   private selectedBreadCrumb(breadCrumbfolder: breadCrumbItem) {
-    let clickedItemIndex: number;
+    let clickedItem: breadCrumbItem = null;
+    let keepBreadcrumbItems: breadCrumbItem[] = [];
     this.state.breadCrumbState.forEach((breadCrumb, index) => {
       if(breadCrumb.key === breadCrumbfolder.key){
-        clickedItemIndex = index;
+        clickedItem = breadCrumb;
+        keepBreadcrumbItems.push(breadCrumb);
+      }else if (breadCrumb.key !== breadCrumbfolder.key && clickedItem === null){
+        keepBreadcrumbItems.push(breadCrumb);
       }
     });
-    let _array = this.state.breadCrumbState.slice(clickedItemIndex, (this.state.breadCrumbState.length-clickedItemIndex)-1);
+    // let _array = this.state.breadCrumbState.slice(clickedItemIndex, (this.state.breadCrumbState.length-clickedItemIndex)-1);
     this.setState((state) => {
       return {
-        breadCrumbState: _array
+        breadCrumbState: keepBreadcrumbItems
       };
     });
-    this.props.dataUpdate(_array[_array.length - 1].relativefolderUrl);
+    this.props.dataUpdate(clickedItem.relativefolderUrl);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -142,6 +146,10 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
   //       };
   //     });
   //   }
+  // }
+
+  // private _configureWebPart = () => {
+  //   this.props.context.propertyPane.open();
   // }
 
   private setGallerystate() {

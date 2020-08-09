@@ -32,6 +32,7 @@ export default class FolderIcon extends React.Component<IFolderIconProps, folder
                         <div className={`${styles.folderPaper} ${this.state.hoverKey === i ? styles.folderPaperUp : styles.folderPaperDown}`}></div>
                         <img className={styles.folderFront} src={_foldericonright} />
                         <div className={styles.folderInfo}>{item.ItemCount}</div>
+                        <div className={styles.folderName}>{item.Name}</div>
                       </div>
                     )
                 })
