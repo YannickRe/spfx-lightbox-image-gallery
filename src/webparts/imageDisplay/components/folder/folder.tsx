@@ -28,11 +28,13 @@ export default class FolderIcon extends React.Component<IFolderIconProps, folder
                 this.props.items.map((item: IFolderInfo, i) => {
                     return (
                       <div className={styles.folderContainer} onMouseEnter={() => this.setState({ hoverKey: i })} onMouseLeave={() => this.setState({ hoverKey: null })} key={i} onClick={(e) => this.selectedFolder(item)}>
-                        <img src={_foldericonleft} />
-                        <div className={`${styles.folderPaper} ${this.state.hoverKey === i ? styles.folderPaperUp : styles.folderPaperDown}`}></div>
-                        <img className={styles.folderFront} src={_foldericonright} />
-                        <div className={styles.folderInfo}>{item.ItemCount}</div>
-                        <div className={styles.folderName}>{item.Name}</div>
+                          <img src={_foldericonleft} />
+                          <div className={`${styles.folderPaper} ${this.state.hoverKey === i ? styles.folderPaperUp : styles.folderPaperDown}`}></div>
+                          <img className={styles.folderFront} src={_foldericonright} />
+                        <div className={styles.folderInformation}>
+                          <div className={styles.folderCount}>{item.ItemCount}</div>
+                          <div className={styles.folderName}>{item.Name}</div>
+                        </div>
                       </div>
                     )
                 })

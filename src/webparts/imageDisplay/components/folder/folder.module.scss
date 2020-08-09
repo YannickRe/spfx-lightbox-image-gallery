@@ -26,18 +26,29 @@
             top: 10%;
         }
 
-        .folderInfo{
+        .folderInformation{
+            display: flex;
+            flex-direction: row;
             position: absolute;
-            color: #bf5712;
-            width: 50%;
+            width: 95%;
+            height: 95%;
+            top: 0;
             left: 10%;
-            bottom: 15%;
+            
+            .folderCount{
+                color: #bf5712;
+                position: absolute;
+                bottom: 10%;
+            }
+            .folderName {
+                position: absolute;
+                color: #bf5712;
+                bottom: 50%;
+                text-align: center;
+                overflow: hidden;
+            }
         }
-        .folderName {
-            color: #bf5712;
-            width: 100%;
-            text-align: center;
-        }
+
     }
     
     
