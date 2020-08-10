@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styles from './ImageDisplay.module.scss';
 import { IImageDisplayProps } from './IImageDisplayProps';
+import { Placeholder } from "@pnp/spfx-controls-react/lib/Placeholder";
 
 import ReactBnbGallery, { Photo } from 'react-bnb-gallery';
 import Gallery from './gallery/gallery';
@@ -13,6 +14,7 @@ import { breadCrumbItem } from '../interfaces/breadCrumbItem.interface';
 export interface IImageDisplayState {
   isOpen : boolean;
   breadCrumbState: breadCrumbItem[];
+  currentbreadCrumbState: string;
   folderState: any[];
   photosState: Photo[];
   containerWidthState: string;
@@ -28,6 +30,7 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
     this.state = {  
       isOpen: this.props.show,
       breadCrumbState: [],
+      currentbreadCrumbState: "0",
       folderState: [],
       photosState: [],
       containerWidthState: "",
@@ -42,31 +45,52 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
   public render(): React.ReactElement<IImageDisplayProps> {
     return (
       <div>
-        <div>
-          <Breadcrumb items={this.state.breadCrumbState}></Breadcrumb>
-        </div>
-        <div >
-          <FolderIcon items={this.state.folderState} folderClicked={this.selectedFolderData}></FolderIcon>
-        </div>
-        <DefaultButton text="Open Gallery" onClick={this.setGallerystate} />
-        <ReactBnbGallery  
-        show={this.state.isOpen} 
-        onClose={this.setGallerystate}
-        photos={this.state.photosState}
-        />
-      <Gallery containerHeight={this.state.containerHeightState + 'px'} containerWidth={this.state.containerWidthState + 'px'} photos={this.state.photosState}></Gallery>
+        {
+          this.props.picLib === "" && 
+          <Placeholder iconName='Edit'
+             iconText='Configure your web part'
+             description='Please configure the web part.'
+             buttonLabel='Configure'
+             onConfigure={this._configureWebPart} />
+        }
+        {
+          this.props.picLib !== "" &&
+          <div>
+            <div>
+              <Breadcrumb items={this.state.breadCrumbState}></Breadcrumb>
+            </div>
+            <div >
+              <FolderIcon items={this.state.folderState} folderClicked={this.selectedFolderData}></FolderIcon>
+            </div>
+            <DefaultButton text="Open Gallery" onClick={this.setGallerystate} />
+            <ReactBnbGallery  
+            show={this.state.isOpen} 
+            onClose={this.setGallerystate}
+            photos={this.state.photosState}
+            />
+            <Gallery 
+              containerHeight={this.state.containerHeightState + 'px'} 
+              containerWidth={this.state.containerWidthState + 'px'} 
+              photos={this.state.photosState}>
+            </Gallery>
+          </div>
+        }
       </div>      
     );
   }
 
   private selectedFolderData(folderData: IFolderInfo) {
     this.setState((state) => {
-      const _breadCrumbState = [...state.breadCrumbState, {text: folderData.Name, key:folderData.UniqueId, relativefolderUrl: folderData.ServerRelativeUrl ,onClick: (ev: React.MouseEvent<HTMLElement>, item: breadCrumbItem) => { this.selectedBreadCrumb(item)}}];
+      const _breadCrumbState = [...state.breadCrumbState, {text: folderData.Name, key:folderData.UniqueId ,relativefolderUrl: folderData.ServerRelativeUrl ,onClick: (ev: React.MouseEvent<HTMLElement>, item: breadCrumbItem) => { this.selectedBreadCrumb(item)}}];
       return {
         breadCrumbState: _breadCrumbState
       };
     });
     this.props.dataUpdate(folderData.ServerRelativeUrl);
+  }
+
+  private _configureWebPart = () => {
+    this.props.context.propertyPane.open();
   }
 
   private selectedBreadCrumb(breadCrumbfolder: breadCrumbItem) {

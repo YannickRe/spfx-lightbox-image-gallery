@@ -7,10 +7,6 @@ import { Label, ILabelStyles } from 'office-ui-fabric-react/lib/Label';
 
 export default class BreadCrumb extends React.Component<IBreadCrumbProps, {}> {
 
-    private labelStyles: Partial<ILabelStyles> = {
-        root: { margin: '10px 0', selectors: { '&:not(:first-child)': { marginTop: 24 } } },
-    };
-
   public render(): React.ReactElement<IBreadCrumbProps> {
     return (
         <div>

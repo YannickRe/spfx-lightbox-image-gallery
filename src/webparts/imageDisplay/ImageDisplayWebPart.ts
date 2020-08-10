@@ -32,7 +32,7 @@ export default class ImageDisplayWebPart extends BaseClientSideWebPart <IImageDi
   private loadingIndicator = false;
   private _folders: IFolderInfo[] = [];
   private _photos: Photo[] = [];
-  private _picLib: string;
+  private _picLib: string = "";
   private _rootUrl: string;
   private _containerWidth: string;
   private _containerHeight: string;
@@ -60,6 +60,7 @@ export default class ImageDisplayWebPart extends BaseClientSideWebPart <IImageDi
         containerWidth: this._containerHeight,
         containerHeight: this._containerWidth,
         show: false,
+        context: this.context,
         dataUpdate: this.updateImageData.bind(this)
       }
     );
