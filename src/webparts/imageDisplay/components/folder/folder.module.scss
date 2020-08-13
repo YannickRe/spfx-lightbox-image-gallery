@@ -1,0 +1,56 @@
+.folderMain{
+    position: inherit;
+    display: flex;
+
+    .folderContainer{
+        position: relative;
+        .folderFront {
+            position: absolute;
+            left: 0;
+        }
+
+        .folderPaper{
+            background-color: whitesmoke;
+            width: 50%;
+            height: 50%;
+            position: absolute;
+            left: 10%;
+            border-radius: 5px;
+        }
+
+        .folderPaperDown{
+            top: 15%;
+        }
+
+        .folderPaperUp{
+            top: 10%;
+        }
+
+        .folderInformation{
+            display: flex;
+            flex-direction: row;
+            position: absolute;
+            width: 95%;
+            height: 95%;
+            top: 0;
+            left: 10%;
+            
+            .folderCount{
+                color: #bf5712;
+                position: absolute;
+                bottom: 10%;
+            }
+            .folderName {
+                position: absolute;
+                color: #bf5712;
+                bottom: 50%;
+                text-align: center;
+                overflow: hidden;
+            }
+        }
+
+    }
+    
+    
+}
+

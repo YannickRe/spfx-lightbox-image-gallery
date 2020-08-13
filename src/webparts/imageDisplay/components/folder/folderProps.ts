@@ -1,3 +1,6 @@
+import { IFolderInfo } from "@pnp/sp/folders";
+
 export interface IFolderIconProps{
-    items: any[];
+    items: IFolderInfo[];
+    folderClicked: (_folderData: IFolderInfo) => void;
 }

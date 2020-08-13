@@ -13,12 +13,12 @@
       "id": "CA0539C6-8539-475A-8319-84DF9812F2FA",
       "version": "1.0.0.1",
       "assets": {
-        "elementManifests": [
-          "elements.xml"
-        ],
-        "elementFiles":[
-          "schema.xml"
-        ]
+        // "elementManifests": [
+        //   "elements.xml"
+        // ],
+        // "elementFiles":[
+        //   "schema.xml"
+        // ]
       }
     }]
   },
