@@ -14,6 +14,8 @@ export default class Gallery extends React.Component<IGalleryProps, {}> {
   
   constructor(props: any){
     super(props);
+
+    this.imageClicked = this.imageClicked.bind(this);
   }
 
   public render(): React.ReactElement<IGalleryProps> {
@@ -21,13 +23,17 @@ export default class Gallery extends React.Component<IGalleryProps, {}> {
       <div className="maingrid" style={this.gridSize}>
         <div className={styles["image-list"]}>
           {
-            this.props.photos.map((_photo) => {
-                return <Image photo={_photo}></Image>
+            this.props.photos.map((_photo, _index) => {
+                return <Image photoClicked={(i) => this.imageClicked(i)} index={_index} photo={_photo} ></Image>
             })
           }
         </div> 
       </div>  
     );
+  }
+
+  private imageClicked(imgIndex: number) {
+    this.props.imgClicked(imgIndex);
   }
 
   componentWillReceiveProps(nextProps) {

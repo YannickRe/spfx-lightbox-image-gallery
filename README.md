@@ -2,7 +2,32 @@
 
 This project uses [React](https://reactjs.org).
 
-> This is where you include your project's documentation.
+## About 
+***
+This project can be used to display images on a page. 
+Images will be gathered from a SharePoint Picture Library. 
+  
+ **If you like the project please Star it** .  
+ *Feel free to contribute!*
+   
+Lightroom effect uses the following library:  
+[react-bnb-gallery](https://peterpalau.github.io/react-bnb-gallery/#/home).
+  
+
+## Core features  
+***
+1. Select SharePoint Image Library   
+2. Navigate through images and folders  
+3. Use breadcrumb to move through the libray  
+4. Show lightroom for images.   
+
+## Usage
+
+Install   
+![Install](./src/webparts/imageDisplay/assets/add-webpart.PNG?raw=true "Install")  
+  
+Base-view   
+![Base-view](./src/webparts/imageDisplay/assets/base-view.PNG?raw=true "Base-view")
 
 ## Global dependencies
 

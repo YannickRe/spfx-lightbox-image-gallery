@@ -19,10 +19,10 @@ export interface IImageDisplayState {
   photosState: Photo[];
   containerWidthState: string;
   containerHeightState: string;
+  selectedImageIndex: number;
 }
 
 export default class ImageDisplay extends React.Component<IImageDisplayProps, IImageDisplayState> {
-
   
   constructor(props: any){
     super(props);  
@@ -34,12 +34,14 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
       folderState: [],
       photosState: [],
       containerWidthState: "",
-      containerHeightState: ""
+      containerHeightState: "",
+      selectedImageIndex: 0
     };
 
     this.setGallerystate = this.setGallerystate.bind(this);
     this.selectedFolderData = this.selectedFolderData.bind(this);
     this.selectedBreadCrumb = this.selectedBreadCrumb.bind(this);
+    this.selectedImage = this.selectedImage.bind(this);
   }  
 
   public render(): React.ReactElement<IImageDisplayProps> {
@@ -67,12 +69,14 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
             show={this.state.isOpen} 
             onClose={this.setGallerystate}
             photos={this.state.photosState}
+            activePhotoIndex={this.state.selectedImageIndex}
             />
-            <Gallery 
-              containerHeight={this.state.containerHeightState + 'px'} 
-              containerWidth={this.state.containerWidthState + 'px'} 
-              photos={this.state.photosState}>
-            </Gallery>
+              <Gallery 
+                containerHeight={this.state.containerHeightState + 'px'} 
+                containerWidth={this.state.containerWidthState + 'px'} 
+                photos={this.state.photosState}
+                imgClicked={this.selectedImage}>
+              </Gallery>
           </div>
         }
       </div>      
@@ -91,6 +95,15 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
 
   private _configureWebPart = () => {
     this.props.context.propertyPane.open();
+  }
+
+  private selectedImage(imgIndex: number){
+    this.setState((state) => {
+      return {
+        selectedImageIndex: imgIndex
+      };
+    });
+    this.setGallerystate();
   }
 
   private selectedBreadCrumb(breadCrumbfolder: breadCrumbItem) {

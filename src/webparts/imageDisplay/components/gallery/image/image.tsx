@@ -4,7 +4,8 @@ import { IImageProps } from './imageProps';
 import styles from '../gallery.module.scss';
 
 export interface IImageState {
-  spans: any
+  spans: any;
+  classN: any;
 }
 
 export default class Gallery extends React.Component<IImageProps, IImageState> {
@@ -14,7 +15,10 @@ export default class Gallery extends React.Component<IImageProps, IImageState> {
   
   constructor(props: any){
     super(props);  
-    this.state = {spans:0};
+    this.state = {
+      spans:0,
+      classN: ""
+    };
     this.imageRef = React.createRef();
   }
 
@@ -28,9 +32,13 @@ export default class Gallery extends React.Component<IImageProps, IImageState> {
     this.setState({ spans: spans});
   }
 
+  setHover = (bool) => {
+    this.setState({ classN: bool ? styles.zoom : ""});
+  }
+
   public render(): React.ReactElement<IImageProps> {
     return (
-      <div style={{ gridRowEnd: `span ${this.state.spans}` }}>
+      <div onMouseEnter={() => this.setHover(true)} onMouseLeave={() => this.setHover(false)} onClick={(e) => this.props.photoClicked(this.props.index)} className={this.state.classN} style={{ gridRowEnd: `span ${this.state.spans}` }}>
         <img ref={this.imageRef} src={this.props.photo.photo} />
       </div>
     );

@@ -19,7 +19,7 @@
     "group": { "default": "Other" },
     "title": { "default": "Image Display" },
     "description": { "default": "Displays images on your page" },
-    "officeFabricIconFontName": "Page",
+    "officeFabricIconFontName": "PhotoCollection",
     "properties": {
       "description": "Image Display"
     }

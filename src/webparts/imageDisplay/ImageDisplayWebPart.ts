@@ -6,7 +6,6 @@ import {
   PropertyPaneTextField,
   PropertyPaneDropdown
 } from '@microsoft/sp-property-pane';
-import { Placeholder } from "@pnp/spfx-controls-react/lib/Placeholder";
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { sp } from "@pnp/pnpjs";
 
@@ -17,8 +16,7 @@ import { IDataService } from './interfaces/dataservice.interface';
 import MockDataService from './services/mockservice.service';
 import DataService from './services/dataservice.service';
 
-import { PropertyPaneCreateImageSource  } from './controls/CreateImageSourceDialog/PropertyPaneCreateImageSource';
-import { IList } from './interfaces/list.interface';
+
 import { IFolderInfo } from '@pnp/sp/folders';
 import { ITreeBody } from './interfaces/treeBody.interface';
 import 'react-bnb-gallery/dist/style.css';
@@ -99,27 +97,7 @@ export default class ImageDisplayWebPart extends BaseClientSideWebPart <IImageDi
 }
 
 
-  // protected onPropertyPaneConfigurationStart(): void {
-  //   // this.context.statusRenderer.displayLoadingIndicator(this.domElement, 'options');
-  //   // re render after fetch, if something is fetched
-  //   // this.render();
-  //   // this.context.statusRenderer.clearLoadingIndicator(this.domElement);
-  // }
-
-  private _createConfigList(listName: string): Promise<IList> {
-    return this._dataService.checkIfListAlreadyExists(listName).then((exists) => {
-      if (exists) {
-        return Promise.reject({ message: "List already exists." });
-      } else {
-        return this._dataService.createList(listName).then((result: IList) => {
-          this.context.propertyPane.refresh();
-          return result;
-        }).catch((error) => {
-          return Promise.reject(error);
-        });
-      }
-    });
-  }
+  
   
 
   protected onPropertyPaneFieldChanged(propertyPath: string, oldValue: any, newValue: any): void {
@@ -189,17 +167,6 @@ export default class ImageDisplayWebPart extends BaseClientSideWebPart <IImageDi
                       index: i
                     } 
                   })
-                })
-              ]
-            },
-            {
-              groupName: "Create Images Lists",
-              groupFields: [
-                new PropertyPaneCreateImageSource('createImagesList', {
-                  buttonLabel: "Create image source list",
-                  dialogTitle: "Create List",
-                  dialogText: "Create a new image source list.",
-                  saveAction: this._createConfigList.bind(this),
                 })
               ]
             }
