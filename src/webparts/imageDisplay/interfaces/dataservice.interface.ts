@@ -1,4 +1,4 @@
-import { IList } from "./list.interface";
+import { IListAddResult } from "@pnp/sp/lists/types";
 
 export interface IDataService {
  getPicturesFolder(listName: string): Promise<any>;
@@ -6,7 +6,7 @@ export interface IDataService {
  getFilesFromFolder(path: string): Promise<any>;
  GetSPLists(): Promise<any>;
  checkIfListAlreadyExists(listName: string): Promise<boolean>;
- createList(listName: string): Promise<IList>;
+ createList(listName: string): Promise<any>;
 }
 
 

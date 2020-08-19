@@ -21,6 +21,7 @@ import { IFolderInfo } from '@pnp/sp/folders';
 import { ITreeBody } from './interfaces/treeBody.interface';
 import 'react-bnb-gallery/dist/style.css';
 import { Photo } from 'react-bnb-gallery';
+import { PropertyPaneCreateImageSource } from './controls/CreateImageSourceDialog/PropertyPaneCreateImageSource';
 
 export interface IImageDisplayWebPartProps {
   description: string;
@@ -134,6 +135,21 @@ export default class ImageDisplayWebPart extends BaseClientSideWebPart <IImageDi
     });
   }
 
+  private _createConfigList(listName: string): Promise<any> {
+    return this._dataService.checkIfListAlreadyExists(listName).then((exists) => {
+      if (exists) {
+        return Promise.reject({ message: "List already exists." });
+      } else {
+        return this._dataService.createList(listName).then((result: any) => {
+          this.context.propertyPane.refresh();
+          return result;
+        }).catch((error) => {
+          return Promise.reject(error);
+        });
+      }
+    });
+  }
+
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     return {
@@ -167,6 +183,17 @@ export default class ImageDisplayWebPart extends BaseClientSideWebPart <IImageDi
                       index: i
                     } 
                   })
+                })
+              ]
+            },
+            {
+              groupName: "Create Images Lists",
+              groupFields: [
+                new PropertyPaneCreateImageSource('createImagesList', {
+                  buttonLabel: "Create Picture Library",
+                  dialogTitle: "Create library",
+                  dialogText: "Create a new picture library.",
+                  saveAction: this._createConfigList.bind(this),
                 })
               ]
             }
