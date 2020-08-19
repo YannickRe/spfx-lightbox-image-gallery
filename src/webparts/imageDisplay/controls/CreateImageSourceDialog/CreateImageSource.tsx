@@ -2,14 +2,14 @@ import SPNameValidator, { Platform, ValidationType } from '@creativeacer/spnamev
 import { escape } from '@microsoft/sp-lodash-subset';
 import { css, DefaultButton, Dialog, DialogFooter, DialogType, Link, List, PrimaryButton, Spinner, TextField } from 'office-ui-fabric-react';
 import * as React from 'react';
-import { IList } from '../../interfaces/list.interface';
 import styles from './CreateImageSource.module.scss';
+import { IListAddResult, IList } from '@pnp/sp/lists/types';
 
 export interface ICreateImageSourceState {
     hideDialog: boolean;
     listTitle: string;
     loading: boolean;
-    createdLists: IList[];
+    createdLists: any[];
     errorMsg: string;
     error: boolean;
 }
@@ -17,7 +17,7 @@ export interface ICreateImageSourceProps {
     buttonLabel: string;
     dialogTitle: string;
     dialogText: string;
-    saveAction: (listName: String) => Promise<IList>;
+    saveAction: (listName: String) => Promise<any>;
 }
 
 export class CreateImageSource extends React.Component<ICreateImageSourceProps, ICreateImageSourceState> {
@@ -63,7 +63,7 @@ export class CreateImageSource extends React.Component<ICreateImageSourceProps, 
                         <div>
                             {this.state.createdLists.length > 0 &&
                                 <div className={styles["ms-ListScrollingExample-container"]} data-is-scrollable={true}>
-                                    <p className="ms-font-m">Created lists:</p>
+                                    <p className="ms-font-m">Created libraries:</p>
                                     <List
                                         ref={this._resolveList}
                                         items={this.state.createdLists}
@@ -78,13 +78,13 @@ export class CreateImageSource extends React.Component<ICreateImageSourceProps, 
                                 onChange={(_event:React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue:string) => { this.setState({ listTitle: newValue }); this.state.error ? this.setState({ error: false, errorMsg: "" }) : null; }}
                             />
                             <DialogFooter>
-                                <PrimaryButton disabled={this.state.error || this.state.listTitle.length <= 0} onClick={this._saveAction} text='Create List' />
+                                <PrimaryButton disabled={this.state.error || this.state.listTitle.length <= 0} onClick={this._saveAction} text='Create Library' />
                                 <DefaultButton onClick={this._closeDialog} text='Cancel' />
                             </DialogFooter>
                         </div>
                     ) : (
                             <div>
-                                < Spinner label='Creating list...' />
+                                < Spinner label='Creating picture library...' />
                             </div>
                         )}
                 </Dialog>
@@ -106,9 +106,10 @@ export class CreateImageSource extends React.Component<ICreateImageSourceProps, 
             this.setState({ errorMsg: "Invalid list name", error: true });
         }else{
             this.setState({ loading: true });
-            return this.props.saveAction(listTitle).then((result: IList) => {
-                this.state.createdLists.push(result);
-                this.setState({ loading: false, createdLists: this.state.createdLists, listTitle: '' });
+            return this.props.saveAction(listTitle).then((result: IListAddResult) => {
+                const _createdLists = [...this.state.createdLists , result.data];
+                console.log(result);
+                this.setState({ loading: false, createdLists: _createdLists, listTitle: '' });
             }).catch((error) => {
                 console.log(error);
                 this.setState({ loading: false, errorMsg: error.message, error: true });
@@ -119,7 +120,7 @@ export class CreateImageSource extends React.Component<ICreateImageSourceProps, 
         this._list = list;
     }
 
-    private _onRenderCell(item: IList, index: number): JSX.Element {
+    private _onRenderCell(item: any, index: number): JSX.Element {
         return (
             <div className={styles["ms-ListScrollingExample-itemCell"]} data-is-focusable={true}>
                 <div
@@ -129,7 +130,7 @@ export class CreateImageSource extends React.Component<ICreateImageSourceProps, 
                         (index % 2 === 1) && styles['ms-ListScrollingExample-itemContent-odd']
                     )}
                 >
-                    <Link target="_blank" href={item.NavUrl}> &nbsp; {item.Title}</Link>
+                    <Link target="_blank" href={item["odata.id"]}> &nbsp; {item.Title}</Link>
                 </div>
             </div>
         );

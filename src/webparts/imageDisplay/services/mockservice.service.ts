@@ -1,5 +1,5 @@
 import { IDataService } from "../interfaces/dataservice.interface";
-import { IList } from '../interfaces/list.interface';
+import { IListAddResult } from "@pnp/sp/lists/types";
 
 export default class MockDataService implements IDataService {
 
@@ -18,7 +18,7 @@ export default class MockDataService implements IDataService {
 
   };
 
-  public createList(listName: string): Promise<IList> {
+  public createList(listName: string): Promise<any> {
     return Promise.resolve({
       Id: 1,
       Title: "string",

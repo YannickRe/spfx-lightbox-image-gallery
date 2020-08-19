@@ -8,6 +8,7 @@ import { IFolderInfo } from "@pnp/sp/folders";
 import { IFileInfo } from "@pnp/sp/files";
 import TreeBuilder from "../helpers/treeBuilder";
 import { ITreeBody } from "../interfaces/treeBody.interface";
+import { IListAddResult } from "@pnp/sp/lists/types";
 
 export default class DataService implements IDataService {
     private _treeBuilder: TreeBuilder;
@@ -47,13 +48,15 @@ export default class DataService implements IDataService {
         });
     };
 
-    public createList(listName: string): Promise<IList> {
-      return Promise.resolve({
-        Id: 1,
-        Title: "string",
-        ParentWebUrl: "string",
-        NavUrl: "string"
-      });
+    public createList(listName: string): Promise<IListAddResult> {
+      return sp.web.lists.add(listName, "Picture Library for the images webpart", 109, false)
+        .then((listResult: any) => {
+          return Promise.resolve(listResult);
+        })
+        .catch((error) => {
+          console.log(error);
+          return Promise.reject(error);
+        });
     }
 
     public getPicturesFolder(listName: string) : Promise<ITreeBody> {
