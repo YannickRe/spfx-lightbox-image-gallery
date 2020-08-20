@@ -14,5 +14,6 @@ export interface IImageDisplayProps {
   containerHeight: string;
   breadCrumb: IBreadcrumbItem[];
   context: WebPartContext;
+  amountColumns: number;
   dataUpdate: (folder:string) => void;
 }

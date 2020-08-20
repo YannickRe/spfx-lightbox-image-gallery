@@ -20,6 +20,7 @@ export interface IImageDisplayState {
   containerWidthState: string;
   containerHeightState: string;
   selectedImageIndex: number;
+  amountColumnsState: number;
 }
 
 export default class ImageDisplay extends React.Component<IImageDisplayProps, IImageDisplayState> {
@@ -35,7 +36,8 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
       photosState: [],
       containerWidthState: "",
       containerHeightState: "",
-      selectedImageIndex: 0
+      selectedImageIndex: 0,
+      amountColumnsState: 3
     };
 
     this.setGallerystate = this.setGallerystate.bind(this);
@@ -75,7 +77,8 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
                 containerHeight={this.state.containerHeightState + 'px'} 
                 containerWidth={this.state.containerWidthState + 'px'} 
                 photos={this.state.photosState}
-                imgClicked={this.selectedImage}>
+                imgClicked={this.selectedImage}
+                amountColumns={this.state.amountColumnsState}>
               </Gallery>
           </div>
         }
@@ -168,6 +171,13 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
         return {
           containerWidthState: updateWidth,
           containerHeightState: updateHeight
+        };
+      });
+    }
+    if(this.props.amountColumns != nextProps.amountColumns) {
+      this.setState((state) => {
+        return {
+          amountColumnsState: nextProps.amountColumns
         };
       });
     }
