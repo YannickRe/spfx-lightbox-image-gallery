@@ -141,8 +141,13 @@ export default class ImageDisplayWebPart extends BaseClientSideWebPart <IImageDi
         return Promise.reject({ message: "List already exists." });
       } else {
         return this._dataService.createList(listName).then((result: any) => {
-          this.context.propertyPane.refresh();
-          return result;
+          return this.DataService.GetSPLists().then((lists: any) => {
+            this.SPListsCollection = lists;
+            this.context.propertyPane.refresh();
+            return result;
+          }).catch((error) => {
+              return Promise.reject(error);
+            });
         }).catch((error) => {
           return Promise.reject(error);
         });

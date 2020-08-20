@@ -10,7 +10,6 @@ export interface IGalleryState {
 
 export default class Gallery extends React.Component<IGalleryProps, {}> {
   private gridSize:React.CSSProperties;
-  private gridColumnSize: number = 3;
   
   constructor(props: any){
     super(props);
@@ -21,7 +20,7 @@ export default class Gallery extends React.Component<IGalleryProps, {}> {
   public render(): React.ReactElement<IGalleryProps> {
     return (
       <div className="maingrid" style={this.gridSize}>
-        <div className={styles["image-list"]}>
+        <div className={styles["photo-list"]}>
           {
             this.props.photos.map((_photo, _index) => {
                 return <Image photoClicked={(i) => this.imageClicked(i)} index={_index} photo={_photo} ></Image>
