@@ -27,8 +27,8 @@ Lightroom effect uses the following library:
 Install   
 ![Install](./src/webparts/imageDisplay/assets/add-webpart.PNG?raw=true "Install")  
   
-Base-view   
-![Base-view](./src/webparts/imageDisplay/assets/base-view.PNG?raw=true "Base-view")
+Main-view   
+![Main-view](./src/webparts/imageDisplay/assets/main-view.PNG?raw=true "Main-view")
 
 ## Global dependencies
 
