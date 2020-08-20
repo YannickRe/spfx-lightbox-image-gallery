@@ -15,6 +15,9 @@ export default class Gallery extends React.Component<IGalleryProps, {}> {
   constructor(props: any){
     super(props);
 
+    this.amountColumsCSS = {
+      columnCount: 3
+    }
     this.imageClicked = this.imageClicked.bind(this);
   }
 

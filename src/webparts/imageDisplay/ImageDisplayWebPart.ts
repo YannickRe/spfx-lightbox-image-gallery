@@ -83,7 +83,6 @@ export default class ImageDisplayWebPart extends BaseClientSideWebPart <IImageDi
     sp.setup({
       spfxContext: this.context
     });
-
     let splistPromise = new Promise<any>((resolve, reject) => {
       this.DataService.GetSPLists().then((lists: any) => {
         this.SPListsCollection = lists;
