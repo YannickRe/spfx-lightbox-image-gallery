@@ -4,7 +4,8 @@ import { Version, Environment, EnvironmentType } from '@microsoft/sp-core-librar
 import {
   IPropertyPaneConfiguration,
   PropertyPaneTextField,
-  PropertyPaneDropdown
+  PropertyPaneDropdown,
+  PropertyPaneSlider
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { sp } from "@pnp/pnpjs";
@@ -32,7 +33,7 @@ export default class ImageDisplayWebPart extends BaseClientSideWebPart <IImageDi
   private _folders: IFolderInfo[] = [];
   private _photos: Photo[] = [];
   private _picLib: string = "";
-  private _rootUrl: string;
+  private _amountColumns: number;
   private _containerWidth: string;
   private _containerHeight: string;
   private _dataService: IDataService;
@@ -60,6 +61,7 @@ export default class ImageDisplayWebPart extends BaseClientSideWebPart <IImageDi
         containerHeight: this._containerWidth,
         show: false,
         context: this.context,
+        amountColumns: this._amountColumns,
         dataUpdate: this.updateImageData.bind(this)
       }
     );
@@ -81,7 +83,6 @@ export default class ImageDisplayWebPart extends BaseClientSideWebPart <IImageDi
     sp.setup({
       spfxContext: this.context
     });
-
     let splistPromise = new Promise<any>((resolve, reject) => {
       this.DataService.GetSPLists().then((lists: any) => {
         this.SPListsCollection = lists;
@@ -121,6 +122,11 @@ export default class ImageDisplayWebPart extends BaseClientSideWebPart <IImageDi
           this.render();
         });
         
+    }
+    if(propertyPath === 'AmountColumns' && (newValue != oldValue)){
+      this._amountColumns = this.properties["AmountColumns"];
+      this.context.propertyPane.refresh();
+      this.render();
     }
 
     super.onPropertyPaneFieldChanged(propertyPath, oldValue, newValue);
@@ -173,6 +179,12 @@ export default class ImageDisplayWebPart extends BaseClientSideWebPart <IImageDi
                 }),
                 PropertyPaneTextField('containerWidth', {
                   label: 'Set Image Container Width in px'
+                }),
+                PropertyPaneSlider('AmountColumns', {
+                  label: 'Set the amount of columns for the gallery',
+                  value:  3,
+                  min:  1,
+                  max: 10
                 })
               ]
             },

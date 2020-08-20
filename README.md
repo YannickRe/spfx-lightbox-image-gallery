@@ -19,8 +19,9 @@ Lightroom effect uses the following library:
 1. Select SharePoint Image Library   
 2. Navigate through images and folders  
 3. Use breadcrumb to move through the libray  
-4. Show lightroom for images. 
-5. Create Picture library from spfx webaprt properties  
+4. Show lightroom for images 
+5. Set the amount of columns for the gallery   
+6. Create Picture library from spfx webaprt properties  
 
 ## Usage
 
