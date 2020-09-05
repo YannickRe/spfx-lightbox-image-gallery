@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { IImageProps } from './imageProps';
 // import styles from './image.module.scss';
 import styles from '../gallery.module.scss';
+import { IImageProps } from './IImageProps';
+import { IImageState } from './IImageState';
 
-export interface IImageState {
-  classN: any;
-}
+
+
 
 export default class Gallery extends React.Component<IImageProps, IImageState> {
   

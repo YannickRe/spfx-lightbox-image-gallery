@@ -5,7 +5,7 @@ import { ITreeBody } from "../interfaces/treeBody.interface";
 
 export default class TreeBuilder {
 
-    public buildImageTree(folders: IFolderInfo[], files: IFileInfo[], pageurl: string) : Promise<any>{
+    public async buildImageTree(folders: IFolderInfo[], files: IFileInfo[], pageurl: string) : Promise<any>{
         
         let bodyObject: ITreeBody = {
             folders: [], 

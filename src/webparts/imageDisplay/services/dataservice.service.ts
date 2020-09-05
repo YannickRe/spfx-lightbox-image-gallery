@@ -17,7 +17,7 @@ export default class DataService implements IDataService {
       this._treeBuilder = new TreeBuilder();
     }
 
-    public checkIfListAlreadyExists(listName: string): Promise<boolean> {
+    public async checkIfListAlreadyExists(listName: string): Promise<boolean> {
       return sp.web.lists.getByTitle(listName).get().then((listResult) => {
         if (listResult) {
           return Promise.resolve(true);
@@ -33,7 +33,7 @@ export default class DataService implements IDataService {
         });
     }
 
-    public GetSPLists(): Promise<any> {
+    public async GetSPLists(): Promise<any> {
       // only return picture libarys basetemplate = 109
       return sp.web.lists.get()
         .then((lists: any) => {
@@ -48,7 +48,7 @@ export default class DataService implements IDataService {
         });
     };
 
-    public createList(listName: string): Promise<IListAddResult> {
+    public async createList(listName: string): Promise<IListAddResult> {
       return sp.web.lists.add(listName, "Picture Library for the images webpart", 109, false)
         .then((listResult: any) => {
           return Promise.resolve(listResult);
@@ -59,47 +59,66 @@ export default class DataService implements IDataService {
         });
     }
 
-    public getPicturesFolder(listName: string) : Promise<ITreeBody> {
+    public async getPicturesFolder(listName: string) : Promise<ITreeBody> {
       // let list = sp.web.lists.getByTitle(listName);
-      let foldersPromise = new Promise<any>((resolve, reject) => {
-        return this.getFoldersFromList(listName).then((data) => {
-          resolve({folders: data});
-        }).catch((data) => {
-          reject({error: data});
-        });
-      });
-      let filesPromise = new Promise<any>((resolve, reject) => {
-        return this.getFilesFromFolder(listName).then((data) => {
-          resolve({files: data});
-        }).catch((data) => {
-          reject({error: data});
-        });
-      });
+      // let foldersPromise = new Promise<any>((resolve, reject) => {
+      //   return this.getFoldersFromList(listName).then((data) => {
+      //     resolve({folders: data});
+      //   }).catch((data) => {
+      //     reject({error: data});
+      //   });
+      // });
+      // let filesPromise = new Promise<any>((resolve, reject) => {
+      //   return this.getFilesFromFolder(listName).then((data) => {
+      //     resolve({files: data});
+      //   }).catch((data) => {
+      //     reject({error: data});
+      //   });
+      // });
+
+      let foldersPromise = await this.getFoldersFromList(listName);
+      let filesPromise = await this.getFilesFromFolder(listName);
+      let pageurl = this.context.pageContext.web.absoluteUrl + "/" + listName + "/";
+      let body = await this._treeBuilder.buildImageTree(foldersPromise, filesPromise, pageurl);
+      return body;
       
-      return Promise.all([foldersPromise, filesPromise]).then((values) => {
-        console.log(values);
-        let pageurl = this.context.pageContext.web.absoluteUrl + "/" + listName + "/";
-        return this._treeBuilder.buildImageTree(values[0].folders, values[1].files, pageurl).then((body: ITreeBody) => {
-          console.log(body);
-          return Promise.resolve(body);
-        });
-      });
+      // return Promise.all([foldersPromise, filesPromise]).then((values) => {
+      //   console.log(values);
+      //   let pageurl = this.context.pageContext.web.absoluteUrl + "/" + listName + "/";
+      //   return this._treeBuilder.buildImageTree(values[0].folders, values[1].files, pageurl).then((body: ITreeBody) => {
+      //     console.log(body);
+      //     return Promise.resolve(body);
+      //   });
+      // });
     }
   
-    public getFoldersFromList(path: string): Promise<IFolderInfo[]> {
-      return sp.web.getFolderByServerRelativePath(path).folders().then((folders: IFolderInfo[]) => {
+    public async getFoldersFromList(path: string): Promise<IFolderInfo[]> {
+      try{
+        let folders = await sp.web.getFolderByServerRelativePath(path).folders();
         return Promise.resolve(folders);
-      }).catch((error) => {
+      }catch(error){
         return Promise.reject(error);
-      });
+      }
+
+      // return sp.web.getFolderByServerRelativePath(path).folders().then((folders: IFolderInfo[]) => {
+      //   return Promise.resolve(folders);
+      // }).catch((error) => {
+      //   return Promise.reject(error);
+      // });
       
     };
 
-    public getFilesFromFolder(path: string): Promise<IFileInfo[]> {
-      return sp.web.getFolderByServerRelativePath(path).files().then((files: IFileInfo[]) => {
+    public async getFilesFromFolder(path: string): Promise<IFileInfo[]> {
+      try{
+        let files = await sp.web.getFolderByServerRelativePath(path).files();
         return Promise.resolve(files);
-      }).catch((error) => {
+      }catch(error){
         return Promise.reject(error);
-      });
+      }
+      // return sp.web.getFolderByServerRelativePath(path).files().then((files: IFileInfo[]) => {
+      //   return Promise.resolve(files);
+      // }).catch((error) => {
+      //   return Promise.reject(error);
+      // });
     } 
 }

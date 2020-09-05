@@ -1,15 +1,13 @@
 import * as React from 'react';
-import { IFolderIconProps } from './folderProps';
+import { IFolderIconProps } from './IFolderProps';
 import { IFolderInfo } from "@pnp/sp/folders";
 import styles from './folder.module.scss';
+import { folderIconState } from './IFolderState';
 
 
 const _foldericonright: any = require('../../assets/folderIconRight.svg');
 const _foldericonleft: any = require('../../assets/folderIconLeft.svg');
 
-export interface folderIconState {
-  hoverKey: any;
-}
 
 export default class FolderIcon extends React.Component<IFolderIconProps, folderIconState> {
 
