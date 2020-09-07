@@ -11,6 +11,7 @@ import FolderIcon  from './folder/folder';
 import { Breadcrumb, DefaultButton } from 'office-ui-fabric-react';
 import { breadCrumbItem } from '../interfaces/breadCrumbItem.interface';
 import { IImageDisplayState } from './IImageDisplayState';
+import { isEmpty } from "@microsoft/sp-lodash-subset";
 
 
 
@@ -22,7 +23,7 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
   
     this.state = {  
       isOpen: this.props.show,
-      breadCrumbState: [],
+      breadCrumbState: [{text: this.props.breadCrumbInit.text, key:"0", relativefolderUrl: this.props.breadCrumbInit.relativefolderUrl ,onClick: (ev: React.MouseEvent<HTMLElement>, item: breadCrumbItem) => { this.selectedBreadCrumb(item)}}],
       currentbreadCrumbState: "0",
       folderState: [],
       photosState: [],
@@ -39,17 +40,17 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
 
   public render(): React.ReactElement<IImageDisplayProps> {
     return (
-      <div>
-        {
-          this.props.picLib === "" && 
-          <Placeholder iconName={strings.placeholderIconName}
-             iconText={strings.placeholderName}
-             description={strings.placeholderDescription}
-             buttonLabel={strings.placeholderbtnLbl}
-             onConfigure={this._configureWebPart} />
-        }
-        {
-          this.props.picLib !== "" &&
+      // <div>
+      //   {
+      //     isEmpty(this.props.picLib) && 
+      //     <Placeholder iconName={strings.placeholderIconName}
+      //        iconText={strings.placeholderName}
+      //        description={strings.placeholderDescription}
+      //        buttonLabel={strings.placeholderbtnLbl}
+      //        onConfigure={this._configureWebPart} />
+      //   }
+      //   {
+      //     !isEmpty(this.props.picLib) &&
           <div>
             <div>
               <Breadcrumb items={this.state.breadCrumbState}></Breadcrumb>
@@ -69,8 +70,8 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
                 amountColumns={this.state.amountColumnsState}>
               </Gallery>
           </div>
-        }
-      </div>      
+        // }
+      // </div>      
     );
   }
 
@@ -84,9 +85,9 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
     this.props.dataUpdate(folderData.ServerRelativeUrl);
   }
 
-  private _configureWebPart = () => {
-    this.props.contextPropertypane.open();
-  }
+  // private _configureWebPart = () => {
+  //   this.props.contextPropertypane.open();
+  // }
 
   private selectedImage = (imgIndex: number) => {
     this.setState((state) => {

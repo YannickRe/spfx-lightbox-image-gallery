@@ -11,7 +11,8 @@ export interface IImageDisplayProps {
   photos: Photo[];
   folders: IFolderInfo[];
   breadCrumb: IBreadcrumbItem[];
-  contextPropertypane: IPropertyPaneAccessor;
+  breadCrumbInit: any;
+  openPropertypane: IPropertyPaneAccessor;
   amountColumns: number;
   dataUpdate: (folder:string) => void;
 }
