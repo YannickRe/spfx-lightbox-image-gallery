@@ -16,7 +16,7 @@ Lightroom effect uses the following library:
 
 ## Core features  
 ***
-1. Select SharePoint Image Library   
+1. Select SharePoint Image/Document Library   
 2. Navigate through images and folders  
 3. Use breadcrumb to move through the libray  
 4. Show lightroom for images 
