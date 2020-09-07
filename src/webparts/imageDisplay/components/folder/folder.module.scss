@@ -1,6 +1,16 @@
 .folderMain{
     position: inherit;
     display: flex;
+    padding-bottom: 5px;
+
+    .folderBackground{
+        padding: 30px;
+        
+        &:hover{
+            background: rgb(111,109,109);
+            background: linear-gradient(0deg, rgba(111,109,109,1) 0%, rgba(186,186,193,0.9612219887955182) 26%, rgba(255,255,255,1) 100%);
+        }
+    }
 
     .folderContainer{
         position: relative;

@@ -1,12 +1,9 @@
 import * as React from 'react';
 import styles from './gallery.module.scss';
-import { IGalleryProps } from './galleryProps';
-import { Photo } from 'react-bnb-gallery';
+import { IGalleryProps } from './IgalleryProps';
 import Image from './image/image';
 
-export interface IGalleryState {
-  photosState: Photo[];
-}
+
 
 export default class Gallery extends React.Component<IGalleryProps, {}> {
   private gridSize:React.CSSProperties;
@@ -18,7 +15,8 @@ export default class Gallery extends React.Component<IGalleryProps, {}> {
     this.amountColumsCSS = {
       columnCount: 3
     }
-    this.imageClicked = this.imageClicked.bind(this);
+
+    this.imageClicked = this.imageClicked.bind(this)
   }
 
   public render(): React.ReactElement<IGalleryProps> {
@@ -40,12 +38,6 @@ export default class Gallery extends React.Component<IGalleryProps, {}> {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.containerWidth != nextProps.containerWidth || this.props.containerHeight != nextProps.containerHeight) {
-      this.gridSize = { 
-        width : nextProps.containerWidth.trim().length > 2 ? nextProps.containerWidth :"1200px",
-        height: nextProps.containerHeight.trim().length > 2 ? nextProps.containerHeight :"800px"
-      };
-    }
     if(this.props.amountColumns != nextProps.amountColumns) {
       this.amountColumsCSS = {
         columnCount: nextProps.amountColumns
