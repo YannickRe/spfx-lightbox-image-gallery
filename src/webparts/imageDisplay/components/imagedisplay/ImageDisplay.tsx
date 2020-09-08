@@ -1,17 +1,16 @@
 import * as React from 'react';
-import styles from './ImageDisplay.module.scss';
-import * as strings from 'ImageDisplayWebPartStrings';
+// import styles from '../ImageDisplay.module.scss';
+// import * as strings from 'ImageDisplayWebPartStrings';
 import { IImageDisplayProps } from './IImageDisplayProps';
-import { Placeholder } from "@pnp/spfx-controls-react/lib/Placeholder";
 
 import ReactBnbGallery from 'react-bnb-gallery';
-import Gallery from './gallery/gallery';
+import Gallery from '../gallery/gallery';
 import { IFolderInfo } from '@pnp/sp/folders';
-import FolderIcon  from './folder/folder';
+import FolderIcon  from '../folder/folder';
 import { Breadcrumb, DefaultButton } from 'office-ui-fabric-react';
-import { breadCrumbItem } from '../interfaces/breadCrumbItem.interface';
+import { breadCrumbItem } from '../../interfaces/breadCrumbItem.interface';
 import { IImageDisplayState } from './IImageDisplayState';
-import { isEmpty } from "@microsoft/sp-lodash-subset";
+// import { isEmpty } from "@microsoft/sp-lodash-subset";
 
 
 
@@ -40,17 +39,6 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
 
   public render(): React.ReactElement<IImageDisplayProps> {
     return (
-      // <div>
-      //   {
-      //     isEmpty(this.props.picLib) && 
-      //     <Placeholder iconName={strings.placeholderIconName}
-      //        iconText={strings.placeholderName}
-      //        description={strings.placeholderDescription}
-      //        buttonLabel={strings.placeholderbtnLbl}
-      //        onConfigure={this._configureWebPart} />
-      //   }
-      //   {
-      //     !isEmpty(this.props.picLib) &&
           <div>
             <div>
               <Breadcrumb items={this.state.breadCrumbState}></Breadcrumb>
@@ -69,9 +57,7 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
                 imgClicked={this.selectedImage}
                 amountColumns={this.state.amountColumnsState}>
               </Gallery>
-          </div>
-        // }
-      // </div>      
+          </div>     
     );
   }
 
@@ -84,11 +70,6 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
     });
     this.props.dataUpdate(folderData.ServerRelativeUrl);
   }
-
-  // private _configureWebPart = () => {
-  //   this.props.contextPropertypane.open();
-  // }
-
   private selectedImage = (imgIndex: number) => {
     this.setState((state) => {
       return {
@@ -109,7 +90,6 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
         keepBreadcrumbItems.push(breadCrumb);
       }
     });
-    // let _array = this.state.breadCrumbState.slice(clickedItemIndex, (this.state.breadCrumbState.length-clickedItemIndex)-1);
     this.setState((state) => {
       return {
         breadCrumbState: keepBreadcrumbItems
@@ -129,18 +109,14 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
       });
     }
     if(this.props.folders != nextProps.folders) {
-      // let updateFolders = nextProps.folders;
       this.setState((state) => {
-        // const _folderState = [...updateFolders, []];
         return {
           folderState: nextProps.folders
         };
       });
     }
     if(this.props.photos != nextProps.photos) {
-      // let updatePhotos = nextProps.photos;
       this.setState((state) => {
-        // const _photoState = [...updatePhotos, []];
         return {
           photosState: nextProps.photos
         };
@@ -161,22 +137,6 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
       });
     }
   }
-
-  // componentDidUpdate(prevProps) {
-  //   if(prevProps.breadCrumb !== this.props.breadCrumb) {
-  //     this.setState((state) => {
-  //       const _breadCrumbState = [...this.props.breadCrumb, ...state.breadCrumbState];
-  //       return {
-  //         isOpen: state.isOpen,
-  //         breadCrumbState: _breadCrumbState
-  //       };
-  //     });
-  //   }
-  // }
-
-  // private _configureWebPart = () => {
-  //   this.props.context.propertyPane.open();
-  // }
 
   private setGallerystate = () => {
     console.log(this.state.photosState);

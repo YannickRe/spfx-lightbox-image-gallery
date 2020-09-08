@@ -12,7 +12,7 @@ export class PropertyPaneCreateImageSource implements IPropertyPaneField<IProper
   public type: PropertyPaneFieldType = PropertyPaneFieldType.Custom;
   public targetProperty: string;
   public properties: IPropertyPaneCreateImageSourceInternalProps;
-  private elem: HTMLElement;
+  private _elem: HTMLElement;
 
   constructor(targetProperty: string, properties: ICreateImageSourceProps) {
     this.targetProperty = targetProperty;
@@ -27,16 +27,16 @@ export class PropertyPaneCreateImageSource implements IPropertyPaneField<IProper
   }
 
   public render(): void {
-    if (!this.elem) {
+    if (!this._elem) {
       return;
     }
 
-    this.onRender(this.elem);
+    this.onRender(this._elem);
   }
 
   private onRender(elem: HTMLElement): void {
-    if (!this.elem) {
-      this.elem = elem;
+    if (!this._elem) {
+      this._elem = elem;
     }
 
     const element: React.ReactElement<ICreateImageSourceProps> = React.createElement(CreateImageSource, {

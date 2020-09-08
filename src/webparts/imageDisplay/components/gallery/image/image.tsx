@@ -5,8 +5,6 @@ import { IImageProps } from './IImageProps';
 import { IImageState } from './IImageState';
 
 
-
-
 export default class Gallery extends React.Component<IImageProps, IImageState> {
   
   constructor(props: any){

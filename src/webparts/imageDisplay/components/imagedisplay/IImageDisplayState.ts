@@ -1,4 +1,4 @@
-import { breadCrumbItem } from "../interfaces/breadCrumbItem.interface";
+import { breadCrumbItem } from "../../interfaces/breadCrumbItem.interface";
 import { Photo } from "react-bnb-gallery";
 
 export interface IImageDisplayState {
