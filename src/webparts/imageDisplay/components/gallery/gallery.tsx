@@ -6,13 +6,13 @@ import Image from './image/image';
 
 
 export default class Gallery extends React.Component<IGalleryProps, {}> {
-  private gridSize:React.CSSProperties;
-  private amountColumsCSS:React.CSSProperties;
+  private _gridSize:React.CSSProperties;
+  private _amountColumsCSS:React.CSSProperties;
   
   constructor(props: any){
     super(props);
 
-    this.amountColumsCSS = {
+    this._amountColumsCSS = {
       columnCount: 3
     }
 
@@ -21,8 +21,8 @@ export default class Gallery extends React.Component<IGalleryProps, {}> {
 
   public render(): React.ReactElement<IGalleryProps> {
     return (
-      <div className="maingrid" style={this.gridSize}>
-        <div className={styles["photo-list"]} style={this.amountColumsCSS}>
+      <div className="maingrid" style={this._gridSize}>
+        <div className={styles["photo-list"]} style={this._amountColumsCSS}>
           {
             this.props.photos.map((_photo, _index) => {
                 return <Image photoClicked={(i) => this.imageClicked(i)} index={_index} photo={_photo} ></Image>
@@ -39,7 +39,7 @@ export default class Gallery extends React.Component<IGalleryProps, {}> {
 
   componentWillReceiveProps(nextProps) {
     if(this.props.amountColumns != nextProps.amountColumns) {
-      this.amountColumsCSS = {
+      this._amountColumsCSS = {
         columnCount: nextProps.amountColumns
       }
     }
