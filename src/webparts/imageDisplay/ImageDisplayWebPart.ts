@@ -3,7 +3,6 @@ import * as ReactDom from 'react-dom';
 import { Version, Environment, EnvironmentType, DisplayMode } from '@microsoft/sp-core-library';
 import {
   IPropertyPaneConfiguration,
-  PropertyPaneTextField,
   PropertyPaneDropdown,
   PropertyPaneSlider
 } from '@microsoft/sp-property-pane';
@@ -21,10 +20,7 @@ import {IImageDisplayWebPartProps} from './IImageDisplayWebpartProps';
 // import { isEqual, isEmpty } from "@microsoft/sp-lodash-subset";
 
 
-import { IFolderInfo } from '@pnp/sp/folders';
-import { ITreeBody } from './interfaces/treeBody.interface';
 import 'react-bnb-gallery/dist/style.css';
-import { Photo } from 'react-bnb-gallery';
 import { PropertyPaneCreateImageSource } from './components/CreateImageSourceDialog/PropertyPaneCreateImageSource';
 import { isEqual, isEmpty } from '@microsoft/sp-lodash-subset';
 
@@ -181,7 +177,6 @@ export default class ImageDisplayWebPart extends BaseClientSideWebPart <IImageDi
       return Promise.reject({ message: strings.listExistsError });
     } else {
       try {
-        let createdList = await this._dataService.createList(listName);
       }catch(error){
         return Promise.reject(error);
       }

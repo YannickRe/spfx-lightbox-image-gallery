@@ -19,6 +19,7 @@ declare interface IImageDisplayWebPartStrings {
   placeholderName:string;
   placeholderDescription:string;
   placeholderbtnLbl:string;
+  breadCrumbAria: string;
 }
 
 declare module 'ImageDisplayWebPartStrings' {

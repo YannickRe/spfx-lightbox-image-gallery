@@ -29,7 +29,10 @@ Install
 ![Install](./src/webparts/imageDisplay/assets/add-webpart.PNG?raw=true "Install")  
   
 Main-view   
-![Main-view](./src/webparts/imageDisplay/assets/main-view.PNG?raw=true "Main-view")
+![Main-view](./src/webparts/imageDisplay/assets/main-view.PNG?raw=true "Main-view")  
+  
+Demo  
+![Demo](./src/webparts/imageDisplay/assets/ImageDisplayExample.gif)
 
 ## Global dependencies
 

@@ -19,6 +19,7 @@ define([], function() {
     "placeholderIconName":"Edit",
     "placeholderName":"Configure your web part",
     "placeholderDescription":"Please configure the web part.",
-    "placeholderbtnLbl":"Configure"
+    "placeholderbtnLbl":"Configure",
+    "breadCrumbAria": "Breadcrumb with items rendered as buttons"
   }
 });
