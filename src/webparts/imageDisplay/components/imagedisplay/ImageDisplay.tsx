@@ -27,13 +27,8 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
       folderState: [],
       photosState: [],
       selectedImageIndex: 0,
-      amountColumnsState: 3
+      amountColumnsState: this.props.amountColumns
     };
-
-    this.selectedFolderData = this.selectedFolderData.bind(this);
-    this.setGallerystate = this.setGallerystate.bind(this);
-    this.selectedImage = this.selectedImage.bind(this);
-    this.selectedBreadCrumb = this.selectedBreadCrumb.bind(this);
 
   }  
 
@@ -44,17 +39,17 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
               <Breadcrumb items={this.state.breadCrumbState}></Breadcrumb>
             </div>
             <div >
-              <FolderIcon items={this.state.folderState} folderClicked={this.selectedFolderData}></FolderIcon>
+              <FolderIcon items={this.state.folderState} folderClicked={(_folder) => this.selectedFolderData(_folder)}></FolderIcon>
             </div>
             <ReactBnbGallery  
             show={this.state.isOpen} 
-            onClose={this.setGallerystate}
+            onClose={() => this.setGallerystate()}
             photos={this.state.photosState}
             activePhotoIndex={this.state.selectedImageIndex}
             />
               <Gallery 
                 photos={this.state.photosState}
-                imgClicked={this.selectedImage}
+                imgClicked={(_img) => this.selectedImage(_img)}
                 amountColumns={this.state.amountColumnsState}>
               </Gallery>
           </div>     
@@ -63,7 +58,7 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
 
   private selectedFolderData = (folderData: IFolderInfo) => {
     this.setState((state) => {
-      const _breadCrumbState = [...state.breadCrumbState, {text: folderData.Name, key:folderData.UniqueId ,relativefolderUrl: folderData.ServerRelativeUrl ,onClick: (ev: React.MouseEvent<HTMLElement>, item: breadCrumbItem) => { this.selectedBreadCrumb(item)}}];
+      const _breadCrumbState = [...state.breadCrumbState, {text: folderData.Name, key:folderData.UniqueId ,relativefolderUrl: folderData.ServerRelativeUrl ,onClick: (ev: React.MouseEvent<HTMLElement>, item: breadCrumbItem) => { () => this.selectedBreadCrumb(item)}}];
       return {
         breadCrumbState: _breadCrumbState
       };
