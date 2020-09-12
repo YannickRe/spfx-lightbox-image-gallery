@@ -13,10 +13,10 @@ export default class Gallery extends React.Component<IGalleryProps, {}> {
     super(props);
 
     this._amountColumsCSS = {
-      columnCount: 3
+      columnCount: this.props.amountColumns
     }
 
-    this.imageClicked = this.imageClicked.bind(this)
+    // this.imageClicked = this.imageClicked.bind(this)
   }
 
   public render(): React.ReactElement<IGalleryProps> {
