@@ -7,6 +7,8 @@ This project uses [React](https://reactjs.org).
 This project can be used to display images on a page. 
 Images will be gathered from a SharePoint Picture Library. 
   
+[![CodeFactor](https://www.codefactor.io/repository/github/creativeacer/spfx-sp-image-display/badge)](https://www.codefactor.io/repository/github/creativeacer/spfx-sp-image-display)
+  
  **If you like the project please Star it** .  
  *Feel free to contribute!*
    
