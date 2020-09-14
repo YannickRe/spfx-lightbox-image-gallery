@@ -23,7 +23,8 @@ Lightroom effect uses the following library:
 3. Use breadcrumb to move through the libray  
 4. Show lightroom for images 
 5. Set the amount of columns for the gallery   
-6. Create Picture library from spfx webaprt properties  
+6. Show image title on hover  
+7. Create Picture library from spfx webaprt properties  
 
 ## Usage
 

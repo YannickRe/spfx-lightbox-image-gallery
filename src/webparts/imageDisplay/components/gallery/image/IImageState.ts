@@ -1,3 +1,3 @@
 export interface IImageState {
-    classN: any;
+    classSpan: string;
   }
