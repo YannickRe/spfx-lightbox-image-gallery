@@ -10,13 +10,12 @@ export default class Gallery extends React.Component<IImageProps, IImageState> {
   constructor(props: any){
     super(props);  
     this.state = {
-      classN: "",
       classSpan: styles.hiddenspan
     };
   }
 
   setHover = (bool) => {
-    this.setState({ classN: bool ? styles.zoom : "", classSpan:bool ? styles.visiblespan : styles.hiddenspan});
+    this.setState({ classSpan:bool ? styles.visiblespan : styles.hiddenspan});
   }
 
   public render(): React.ReactElement<IImageProps> {
