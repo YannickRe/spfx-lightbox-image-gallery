@@ -1,9 +1,11 @@
 import * as React from 'react';
-// import styles from '../ImageDisplay.module.scss';
+import styles from '../ImageDisplay.module.scss';
 // import * as strings from 'ImageDisplayWebPartStrings';
+
 import { IImageDisplayProps } from './IImageDisplayProps';
 
 import ReactBnbGallery from 'react-bnb-gallery';
+import 'react-bnb-gallery/dist/style.css';
 import Gallery from '../gallery/gallery';
 import { IFolderInfo } from '@pnp/sp/folders';
 import FolderIcon  from '../folder/folder';
@@ -34,14 +36,14 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
 
   public render(): React.ReactElement<IImageDisplayProps> {
     return (
-          <div>
+          <div className={styles["gallery-control"]}>
             <div>
               <Breadcrumb items={this.state.breadCrumbState}></Breadcrumb>
             </div>
             <div >
               <FolderIcon items={this.state.folderState} folderClicked={(_folder) => this.selectedFolderData(_folder)}></FolderIcon>
             </div>
-            <ReactBnbGallery  
+            <ReactBnbGallery
             show={this.state.isOpen} 
             onClose={() => this.setGallerystate()}
             photos={this.state.photosState}

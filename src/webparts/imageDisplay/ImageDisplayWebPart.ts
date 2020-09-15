@@ -20,7 +20,7 @@ import {IImageDisplayWebPartProps} from './IImageDisplayWebpartProps';
 // import { isEqual, isEmpty } from "@microsoft/sp-lodash-subset";
 
 
-import 'react-bnb-gallery/dist/style.css';
+// import 'react-bnb-gallery/dist/style.css';
 import { PropertyPaneCreateImageSource } from './components/CreateImageSourceDialog/PropertyPaneCreateImageSource';
 import { isEqual, isEmpty } from '@microsoft/sp-lodash-subset';
 
