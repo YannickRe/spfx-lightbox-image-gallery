@@ -1,7 +1,7 @@
-import { Photo } from "react-bnb-gallery";
+import { IImageItem } from "../../interfaces/IImageItem.interface";
 
 export interface IGalleryProps {
-  photos: Photo[];
+  photos: IImageItem[];
   amountColumns: number;
   imgClicked:  (_imgIndex: number) => void;
 }

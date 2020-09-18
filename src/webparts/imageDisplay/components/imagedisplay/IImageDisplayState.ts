@@ -1,12 +1,12 @@
 import { breadCrumbItem } from "../../interfaces/breadCrumbItem.interface";
-import { Photo } from "react-bnb-gallery";
+import { IImageItem } from "../../interfaces/IImageItem.interface";
 
 export interface IImageDisplayState {
     isOpen : boolean;
     breadCrumbState: breadCrumbItem[];
     currentbreadCrumbState: string;
     folderState: any[];
-    photosState: Photo[];
+    photosState: IImageItem[];
     selectedImageIndex: number;
     amountColumnsState: number;
   }
