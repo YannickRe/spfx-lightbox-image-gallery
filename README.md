@@ -34,6 +34,10 @@ Install
 Main-view   
 ![Main-view](./src/webparts/imageDisplay/assets/main-view.PNG?raw=true "Main-view")  
   
+Lightroom-view   
+![Lightroom-view](./src/webparts/imageDisplay/assets/lightroom.PNG?raw=true "Lightroom-view")  
+  
+  
 Demo  
 ![Demo](./src/webparts/imageDisplay/assets/ImageDisplayExample.gif)
 

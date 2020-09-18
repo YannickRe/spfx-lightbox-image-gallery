@@ -46,8 +46,8 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
             </div>
             {this.state.isOpen ? <Lightbox images={this.state.photosState}
               onClose={() => this.setGallerystate()}
-              buttonAlign={"center"}
-              startIndex={this.state.selectedImageIndex} />: null}
+              startIndex={this.state.selectedImageIndex}
+              showTitle={true} />: null}
               <Gallery 
                 photos={this.state.photosState}
                 imgClicked={(_img) => this.selectedImage(_img)}
