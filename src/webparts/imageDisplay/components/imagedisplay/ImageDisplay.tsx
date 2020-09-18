@@ -4,8 +4,6 @@ import styles from '../ImageDisplay.module.scss';
 
 import { IImageDisplayProps } from './IImageDisplayProps';
 
-import ReactBnbGallery from 'react-bnb-gallery';
-import 'react-bnb-gallery/dist/style.css';
 import Gallery from '../gallery/gallery';
 import { IFolderInfo } from '@pnp/sp/folders';
 import FolderIcon  from '../folder/folder';
@@ -13,6 +11,9 @@ import { Breadcrumb, DefaultButton } from 'office-ui-fabric-react';
 import { breadCrumbItem } from '../../interfaces/breadCrumbItem.interface';
 import { IImageDisplayState } from './IImageDisplayState';
 // import { isEmpty } from "@microsoft/sp-lodash-subset";
+
+import Lightbox from "react-awesome-lightbox";
+import "react-awesome-lightbox/build/style.css";
 
 
 
@@ -43,12 +44,10 @@ export default class ImageDisplay extends React.Component<IImageDisplayProps, II
             <div >
               <FolderIcon items={this.state.folderState} folderClicked={(_folder) => this.selectedFolderData(_folder)}></FolderIcon>
             </div>
-            <ReactBnbGallery
-            show={this.state.isOpen} 
-            onClose={() => this.setGallerystate()}
-            photos={this.state.photosState}
-            activePhotoIndex={this.state.selectedImageIndex}
-            />
+            {this.state.isOpen ? <Lightbox images={this.state.photosState}
+              onClose={() => this.setGallerystate()}
+              buttonAlign={"center"}
+              startIndex={this.state.selectedImageIndex} />: null}
               <Gallery 
                 photos={this.state.photosState}
                 imgClicked={(_img) => this.selectedImage(_img)}

@@ -18,8 +18,8 @@ export default class TreeBuilder {
         });
         files.forEach((file, i) => {
             bodyObject.photos.push({
-                photo: file.ServerRelativeUrl,
-                subcaption: file.Name
+                url: file.ServerRelativeUrl,
+                title: file.Name
             });
         });
         return Promise.resolve(bodyObject);

@@ -34,7 +34,7 @@
     "@types/webpack-env": "1.13.1",
     "office-ui-fabric-react": "^6.189.2",
     "react": "16.8.5",
-    "react-bnb-gallery": "^1.4.4",
+    "react-awesome-lightbox": "^1.7.3",
     "react-dom": "16.8.5"
   },
   "resolutions": {

@@ -1,7 +1,7 @@
 import { IFolderInfo } from "@pnp/sp/folders"
-import { Photo } from "react-bnb-gallery"
-import { IPropertyPaneAccessor } from "@microsoft/sp-webpart-base"
+// import { IPropertyPaneAccessor } from "@microsoft/sp-webpart-base"
 import { IDataService } from "./interfaces/dataservice.interface"
+import { IImageItem } from "./interfaces/IImageItem.interface"
 
 export interface IImageDisplayWebPartProps {
     description: string;
@@ -9,7 +9,7 @@ export interface IImageDisplayWebPartProps {
     folders: IFolderInfo[],
     picLib: string,
     rootUrl: string,
-    photos: Photo[],
+    photos: IImageItem[],
     show: boolean,
     // openPropertypane: () => void,
     amountColumns: number,

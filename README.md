@@ -13,7 +13,7 @@ Images will be gathered from a SharePoint Picture Library.
  *Feel free to contribute!*
    
 Lightroom effect uses the following library:  
-[react-bnb-gallery](https://peterpalau.github.io/react-bnb-gallery/#/home).
+[react-awesome-lightbox](https://theanam.github.io/react-awesome-lightbox/).
   
 
 ## Core features  
