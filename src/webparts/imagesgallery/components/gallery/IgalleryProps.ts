@@ -1,4 +1,4 @@
-import { IImageItem } from "../../interfaces/IImageItem.interface";
+import { IImageItem } from "../../../../models/IImageItem.interface";
 
 export interface IGalleryProps {
   photos: IImageItem[];

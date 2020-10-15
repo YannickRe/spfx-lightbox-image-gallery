@@ -1,4 +1,4 @@
-# spfx-image-display
+# spfx-sp-images-gallery
 
 This project uses [React](https://reactjs.org).
 

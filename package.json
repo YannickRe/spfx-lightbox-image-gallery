@@ -1,56 +1,49 @@
 {
-  "name": "spfx-image-display",
-  "version": "0.0.1",
+  "name": "spfx-sp-images-gallery",
+  "version": "1.0.0",
   "private": true,
   "main": "lib/index.js",
   "engines": {
     "node": ">=0.10.0"
   },
   "scripts": {
-    "dev": "set NODE_NO_HTTP2=1 && gulp serve",
     "build": "gulp bundle",
     "clean": "gulp clean",
-    "test": "gulp test",
     "preversion": "node ./tools/pre-version.js",
     "postversion": "gulp dist"
   },
   "dependencies": {
-    "@creativeacer/spnamevalidator": "^8.1.1",
-    "@microsoft/sp-core-library": "1.10.0",
-    "@microsoft/sp-lodash-subset": "1.10.0",
-    "@microsoft/sp-office-ui-fabric-core": "1.10.0",
-    "@microsoft/sp-property-pane": "1.10.0",
-    "@microsoft/sp-webpart-base": "1.10.0",
+    "react": "16.8.5",
+    "react-dom": "16.8.5",
+    "office-ui-fabric-react": "6.214.0",
+    "@microsoft/sp-core-library": "1.11.0",
+    "@microsoft/sp-property-pane": "1.11.0",
+    "@microsoft/sp-webpart-base": "1.11.0",
+    "@microsoft/sp-lodash-subset": "1.11.0",
+    "@microsoft/sp-office-ui-fabric-core": "1.11.0",
+
+    "@pnp/spfx-controls-react": "^1.19.0",
+    "@pnp/spfx-property-controls": "1.16.0",
     "@pnp/common": "^2.0.6",
     "@pnp/logging": "^2.0.6",
     "@pnp/odata": "^2.0.7",
     "@pnp/pnpjs": "^2.0.3",
     "@pnp/sp": "^2.0.6",
-    "@pnp/spfx-controls-react": "^1.19.0",
-    "@pnp/spfx-property-controls": "1.16.0",
-    "@types/es6-promise": "0.0.33",
-    "@types/react": "16.8.8",
-    "@types/react-dom": "16.8.3",
-    "@types/webpack-env": "1.13.1",
-    "office-ui-fabric-react": "^6.189.2",
-    "react": "16.8.5",
-    "react-awesome-lightbox": "^1.7.3",
-    "react-dom": "16.8.5"
-  },
-  "resolutions": {
-    "@types/react": "16.8.8"
+    "@creativeacer/spnamevalidator": "^8.1.1",
+    "react-awesome-lightbox": "^1.7.3"
   },
   "devDependencies": {
-    "@microsoft/microsoft-graph-types": "^1.12.0",
+    "@microsoft/sp-build-web": "1.11.0",
+    "@microsoft/sp-tslint-rules": "1.11.0",
+    "@microsoft/sp-module-interfaces": "1.11.0",
+    "@microsoft/sp-webpart-workbench": "1.11.0",
     "@microsoft/rush-stack-compiler-3.3": "0.3.5",
-    "@microsoft/sp-build-web": "1.10.0",
-    "@microsoft/sp-module-interfaces": "1.10.0",
-    "@microsoft/sp-tslint-rules": "1.10.0",
-    "@microsoft/sp-webpart-workbench": "1.10.0",
+    "gulp": "~3.9.1",
     "@types/chai": "3.4.34",
     "@types/mocha": "2.2.38",
     "ajv": "~5.2.2",
-    "gulp": "~3.9.1",
+
+    "@microsoft/microsoft-graph-types": "^1.12.0",
     "gulp-sequence": "1.0.0"
   }
 }

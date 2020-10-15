@@ -1,7 +1,7 @@
 import { IFolderInfo } from '@pnp/sp/folders';
 import { IBreadcrumbItem } from 'office-ui-fabric-react';
 import { IPropertyPaneAccessor } from '@microsoft/sp-webpart-base';
-import { IImageItem } from '../../interfaces/IImageItem.interface';
+import { IImageItem } from '../../../../models/IImageItem.interface';
 
 export interface IImageDisplayProps {
   picLib: string;

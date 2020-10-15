@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styles from '../ImageDisplay.module.scss';
+import styles from '../ImagesGalleryWebPart.module.scss';
 // import * as strings from 'ImageDisplayWebPartStrings';
 
 import { IImageDisplayProps } from './IImageDisplayProps';
@@ -8,7 +8,7 @@ import Gallery from '../gallery/gallery';
 import { IFolderInfo } from '@pnp/sp/folders';
 import FolderIcon  from '../folder/folder';
 import { Breadcrumb, DefaultButton } from 'office-ui-fabric-react';
-import { breadCrumbItem } from '../../interfaces/breadCrumbItem.interface';
+import { breadCrumbItem } from '../../../../models/breadCrumbItem.interface';
 import { IImageDisplayState } from './IImageDisplayState';
 // import { isEmpty } from "@microsoft/sp-lodash-subset";
 

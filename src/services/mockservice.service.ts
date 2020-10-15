@@ -1,4 +1,4 @@
-import { IDataService } from "../interfaces/dataservice.interface";
+import { IDataService } from "../models/dataservice.interface";
 import { IListAddResult } from "@pnp/sp/lists/types";
 
 export default class MockDataService implements IDataService {

@@ -1,5 +1,5 @@
-import { breadCrumbItem } from "../../interfaces/breadCrumbItem.interface";
-import { IImageItem } from "../../interfaces/IImageItem.interface";
+import { breadCrumbItem } from "../../../../models/breadCrumbItem.interface";
+import { IImageItem } from "../../../../models/IImageItem.interface";
 
 export interface IImageDisplayState {
     isOpen : boolean;

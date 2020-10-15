@@ -1,6 +1,6 @@
 import { IFolderInfo } from "@pnp/sp/folders";
 import { IFileInfo } from "@pnp/sp/files";
-import { ITreeBody } from "../interfaces/treeBody.interface";
+import { ITreeBody } from "../models/treeBody.interface";
 
 
 export default class TreeBuilder {

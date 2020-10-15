@@ -1,13 +1,13 @@
-import { IDataService } from "../interfaces/dataservice.interface";
+import { IDataService } from "../models/dataservice.interface";
 import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { sp } from "@pnp/pnpjs";
 import ErrorHandler from "../helpers/errorhandler";
-import { IList } from '../interfaces/list.interface';
+import { IList } from '../models/list.interface';
 import { IItems } from "@pnp/sp/items";
 import { IFolderInfo } from "@pnp/sp/folders";
 import { IFileInfo } from "@pnp/sp/files";
 import TreeBuilder from "../helpers/treeBuilder";
-import { ITreeBody } from "../interfaces/treeBody.interface";
+import { ITreeBody } from "../models/treeBody.interface";
 import { IListAddResult } from "@pnp/sp/lists/types";
 
 export default class DataService implements IDataService {
@@ -78,7 +78,7 @@ export default class DataService implements IDataService {
       try{
         let files = await sp.web.getFolderByServerRelativePath(path).files();
         let filteredFiles = files.filter((fileData, i)=> {
-          return ["jpg","jpeg","png"].includes(fileData.Name.toLocaleLowerCase().split('.').pop())
+          return ["jpg","jpeg","png"].indexOf(fileData.Name.toLocaleLowerCase().split('.').pop()) !== -1
         })
         return Promise.resolve(filteredFiles);
       }catch(error){

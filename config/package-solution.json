@@ -1,28 +1,21 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "spfx-image-display-client-side-solution",
+    "developer": {
+      "name": "Contoso",
+      "privacyUrl": "https://contoso.com/privacy",
+      "termsOfUseUrl": "https://contoso.com/terms-of-use",
+      "websiteUrl": "https://contoso.com/my-app",
+      "mpnId": "000000"
+    },
+    "name": "SharePoint Images Gallery",
     "id": "a7d34cfc-bc45-4910-9ec5-3e2ca97a5d27",
     "version": "1.0.0.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
-    "isDomainIsolated": false,
-    "features": [{
-      "title": "asset-deployment-image-display",
-      "description": "asset-deployment-image-display",
-      "id": "CA0539C6-8539-475A-8319-84DF9812F2FA",
-      "version": "1.0.0.1",
-      "assets": {
-        // "elementManifests": [
-        //   "elements.xml"
-        // ],
-        // "elementFiles":[
-        //   "schema.xml"
-        // ]
-      }
-    }]
+    "isDomainIsolated": false
   },
   "paths": {
-    "zippedPackage": "solution/spfx-image-display.sppkg"
+    "zippedPackage": "solution/spfx-sp-images-gallery.sppkg"
   }
 }

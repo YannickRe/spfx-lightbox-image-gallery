@@ -12,10 +12,10 @@ import { sp } from "@pnp/pnpjs";
 import * as strings from 'ImageDisplayWebPartStrings';
 import ImageDisplay from './components/imagedisplay/ImageDisplay';
 import { IImageDisplayProps } from './components/imagedisplay/IImageDisplayProps';
-import { IDataService } from './interfaces/dataservice.interface';
-import MockDataService from './services/mockservice.service';
-import DataService from './services/dataservice.service';
-import {IImageDisplayWebPartProps} from './IImageDisplayWebpartProps';
+import { IDataService } from '../../models/dataservice.interface';
+import MockDataService from '../../services/mockservice.service';
+import DataService from '../../services/dataservice.service';
+import {IImagesGalleryWebPartProps} from './IImagesGalleryWebPartProps';
 
 // import { isEqual, isEmpty } from "@microsoft/sp-lodash-subset";
 
@@ -25,7 +25,7 @@ import { PropertyPaneCreateImageSource } from './components/CreateImageSourceDia
 import { isEqual, isEmpty } from '@microsoft/sp-lodash-subset';
 
 
-export default class ImageDisplayWebPart extends BaseClientSideWebPart <IImageDisplayWebPartProps> {
+export default class ImagesGalleryWebPart extends BaseClientSideWebPart<IImagesGalleryWebPartProps> {
   private _loadingIndicator = false;
   private _initComplete = false;
   private _placeholder = null;
