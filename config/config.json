@@ -2,18 +2,18 @@
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
   "version": "2.0",
   "bundles": {
-    "image-display-web-part": {
+    "images-gallery-web-part": {
       "components": [
         {
-          "entrypoint": "./lib/webparts/imageDisplay/ImageDisplayWebPart.js",
-          "manifest": "./src/webparts/imageDisplay/ImageDisplayWebPart.manifest.json"
+          "entrypoint": "./lib/webparts/imagesgallery/ImagesGalleryWebPart.js",
+          "manifest": "./src/webparts/imagesgallery/ImagesGalleryWebPart.manifest.json"
         }
       ]
     }
   },
   "externals": {},
   "localizedResources": {
-    "ImageDisplayWebPartStrings": "lib/webparts/imageDisplay/loc/{locale}.js",
+    "ImagesGalleryWebPartStrings": "lib/webparts/imagesgallery/loc/{locale}.js",
     "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js",
     "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js"
   }

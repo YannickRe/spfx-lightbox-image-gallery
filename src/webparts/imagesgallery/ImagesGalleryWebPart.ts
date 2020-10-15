@@ -9,7 +9,7 @@ import {
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { sp } from "@pnp/pnpjs";
 
-import * as strings from 'ImageDisplayWebPartStrings';
+import * as strings from 'ImagesGalleryWebPartStrings';
 import ImageDisplay from './components/imagedisplay/ImageDisplay';
 import { IImageDisplayProps } from './components/imagedisplay/IImageDisplayProps';
 import { IDataService } from '../../models/dataservice.interface';

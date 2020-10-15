@@ -1,4 +1,4 @@
-declare interface IImageDisplayWebPartStrings {
+declare interface IImagesGalleryWebPartStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
   DescriptionFieldLabel: string;
@@ -22,7 +22,7 @@ declare interface IImageDisplayWebPartStrings {
   breadCrumbAria: string;
 }
 
-declare module 'ImageDisplayWebPartStrings' {
-  const strings: IImageDisplayWebPartStrings;
+declare module 'ImagesGalleryWebPartStrings' {
+  const strings: IImagesGalleryWebPartStrings;
   export = strings;
 }

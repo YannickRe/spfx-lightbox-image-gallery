@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styles from '../ImagesGalleryWebPart.module.scss';
-// import * as strings from 'ImageDisplayWebPartStrings';
+// import * as strings from 'ImagesGalleryWebPartStrings';
 
 import { IImageDisplayProps } from './IImageDisplayProps';
 
