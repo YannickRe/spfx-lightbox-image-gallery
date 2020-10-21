@@ -16,7 +16,8 @@
     "description": { "default": "Display a good looking images gallery using lightbox effects" },
     "officeFabricIconFontName": "PhotoCollection",
     "properties": {
-      "description": "Image Display"
+      "webPartTitle": "Images Gallery",
+      "showBlank": true
     }
   }]
 }

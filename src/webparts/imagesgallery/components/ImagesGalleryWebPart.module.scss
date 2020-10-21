@@ -1,8 +1,12 @@
-.gallery .gallery-main button.gallery-control--prev {
-    border: 0 !important;
-}
-.gallery .gallery-main button.gallery-control--next {
-    border: 0 !important;
+@import '~office-ui-fabric-react/dist/sass/References.scss';
+
+.imagesGalleryWebpart {
+    position: relative;
 }
 
-* {box-sizing: border-box}
+.overlay {
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

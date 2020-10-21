@@ -1,37 +1,32 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import { Version, Environment, EnvironmentType, DisplayMode } from '@microsoft/sp-core-library';
+import { ThemeProvider, IReadonlyTheme, ThemeChangedEventArgs } from '@microsoft/sp-component-base';
 import {
   IPropertyPaneConfiguration,
   PropertyPaneDropdown,
   PropertyPaneSlider
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
-import { sp } from "@pnp/pnpjs";
-
-import * as strings from 'ImagesGalleryWebPartStrings';
-import ImageDisplay from './components/imagedisplay/ImageDisplay';
-import { IImageDisplayProps } from './components/imagedisplay/IImageDisplayProps';
-import { IDataService } from '../../models/dataservice.interface';
-import MockDataService from '../../services/mockservice.service';
-import DataService from '../../services/dataservice.service';
-import {IImagesGalleryWebPartProps} from './IImagesGalleryWebPartProps';
-
-// import { isEqual, isEmpty } from "@microsoft/sp-lodash-subset";
-
-
-// import 'react-bnb-gallery/dist/style.css';
-import { PropertyPaneCreateImageSource } from './components/CreateImageSourceDialog/PropertyPaneCreateImageSource';
 import { isEqual, isEmpty } from '@microsoft/sp-lodash-subset';
 
+import { sp } from "@pnp/pnpjs";
+import * as strings from 'ImagesGalleryWebPartStrings';
+import { ImagesGalleryContainer, IImagesGalleryContainerProps } from './components/ImagesGalleryContainer';
+import { IDataService } from '../../models/IDataService';
+import MockDataService from '../../services/MockDataService';
+import DataService from '../../services/DataService';
+import {IImagesGalleryWebPartProps} from './IImagesGalleryWebPartProps';
+import { IListInfo } from '@pnp/sp/lists';
 
 export default class ImagesGalleryWebPart extends BaseClientSideWebPart<IImagesGalleryWebPartProps> {
-  private _loadingIndicator = false;
-  private _initComplete = false;
-  private _placeholder = null;
-  private _SPListsCollection: any[] = [];
   private _dataService: IDataService;
-
+  private _placeholder = null;
+  private _themeProvider: ThemeProvider;
+  private _themeVariant: IReadonlyTheme;
+  private _initComplete = false;
+  private _SPListsCollection: IListInfo[] = [];
+  
   public async render(): Promise<void> {
     if (!this._initComplete) {
       return;
@@ -48,29 +43,31 @@ export default class ImagesGalleryWebPart extends BaseClientSideWebPart<IImagesG
     this.renderCompleted();
   }
 
+  protected get isRenderAsync(): boolean {
+    return true;
+  }
+
   protected renderCompleted(): void {
     super.renderCompleted();
-
-    let renderElement: React.ReactElement<IImageDisplayProps> = null;
+    let renderElement = null;
 
     if (this._isWebPartConfigured()) {
-      const element: React.ReactElement<IImageDisplayProps> = React.createElement(
-        ImageDisplay,
+      renderElement = React.createElement(
+        ImagesGalleryContainer,
         {
-          // folders: this._folders,
-          folders: this.properties.folders,
-          picLib: this.properties.picLib,
+          imageLibraryRootFolderUniqueId: this.properties.imageLibraryUrl,
           rootUrl: this.context.pageContext.web.serverRelativeUrl,
-          photos: this.properties.photos,
-          show: false,
-          breadCrumbInit: {text: this.properties.picLib, key:"0", relativefolderUrl: `${ this.context.pageContext.web.serverRelativeUrl}/${this.properties.picLib}`},
-          // openPropertypane: this.context.propertyPane,
-          // ppTest: this.context.propertyPane,
-          amountColumns: this.properties.amountColumns,
-          dataUpdate: this.updateImageData.bind(this)
-        }
+          numberOfColumns: this.properties.numberOfColumns,
+          themeVariant: this._themeVariant,
+          dataService: this._dataService,
+          displayMode: this.displayMode,
+          showBlank: this.properties.showBlank,
+          webPartTitle: this.properties.webPartTitle,
+          updateWebPartTitle: (value: string) => {
+            this.properties.webPartTitle = value;
+          }
+        } as IImagesGalleryContainerProps
       );
-      renderElement = element;
     } else {
       if (this.displayMode === DisplayMode.Edit) {
           const placeholder: React.ReactElement<any> = React.createElement(
@@ -80,7 +77,7 @@ export default class ImagesGalleryWebPart extends BaseClientSideWebPart<IImagesG
                   iconText: strings.placeholderName,
                   description: strings.placeholderDescription,
                   buttonLabel: strings.placeholderbtnLbl,
-                  onConfigure: this._setupWebPart.bind(this)
+                  onConfigure: () => { this._setupWebPart(); }
               }
           );
           renderElement = placeholder;
@@ -91,30 +88,12 @@ export default class ImagesGalleryWebPart extends BaseClientSideWebPart<IImagesG
 
     ReactDom.render(renderElement, this.domElement);
   }
-
-  protected get isRenderAsync(): boolean {
-    return true;
-  }
-
-  protected onDispose(): void {
-    ReactDom.unmountComponentAtNode(this.domElement);
-  }
-
-  protected get dataVersion(): Version {
-    return Version.parse(strings.version);
-  }
-
-  private _setupWebPart() {
-    this.context.propertyPane.open();
-  }
-
-  private _isWebPartConfigured(): boolean {
-    return !isEmpty(this.properties.picLib);
-  }
-
   
-
   public async onInit(): Promise<void> {
+    this._initializeRequiredProperties();
+
+    this._initThemeVariant();
+
     if (Environment.type in [EnvironmentType.Local, EnvironmentType.Test]) {
       this._dataService = new MockDataService();
     }
@@ -122,12 +101,11 @@ export default class ImagesGalleryWebPart extends BaseClientSideWebPart<IImagesG
       this._dataService = new DataService(this.context);
     }
 
-    this._initializeRequiredProperties();
+    //TODO: is dit nog nodig, kan dit beter?
     sp.setup({
       spfxContext: this.context
     });
-    
-    this._SPListsCollection = await this._dataService.GetSPLists();
+    this._SPListsCollection = await this._dataService.getSPLists();
 
     this._initComplete = true;
 
@@ -135,65 +113,16 @@ export default class ImagesGalleryWebPart extends BaseClientSideWebPart<IImagesG
       
   }
 
-
-  private _initializeRequiredProperties() {
-    this.properties.amountColumns = (this.properties.amountColumns !== undefined && this.properties.amountColumns !== null) ? this.properties.amountColumns : 3;
-    this.properties.picLib = (this.properties.picLib !== undefined && this.properties.picLib !== null) ? this.properties.picLib : "";
-  }
-  
-
-  protected async onPropertyPaneFieldChanged(propertyPath: string, oldValue: any, newValue: any): Promise<void> {
-    if (propertyPath.localeCompare('PicturesURL') === 0 && !isEqual(newValue, oldValue)) {
-        this.properties.picLib = this.properties["PicturesURL"];
-        let treeData = await this._dataService.getPicturesFolder(this.properties["PicturesURL"]);
-          this.properties.folders = treeData.folders;
-          this.properties.photos = treeData.photos,
-          this.render();
-        
-    }
-    if (propertyPath.localeCompare('AmountColumns') === 0 && !isEqual(newValue, oldValue)) {
-      this.properties.amountColumns = this.properties["AmountColumns"];
-      this.render();
-    }
-
-    super.onPropertyPaneFieldChanged(propertyPath, oldValue, newValue);
-    this.render(); 
+  protected onDispose(): void {
+    ReactDom.unmountComponentAtNode(this.domElement);
   }
 
-  private async updateImageData(folderUrl: string){
-    try {
-      let treeData = await this._dataService.getPicturesFolder(folderUrl);
-      this.properties.folders = treeData.folders;
-      this.properties.photos = treeData.photos;
-      this.render();
-    }catch(error){
-      // error message
-    }
+  protected get dataVersion(): Version {
+    return Version.parse("1.0");
   }
-
-  private async _createConfigList(listName: string): Promise<any> {
-    let exists = await this._dataService.checkIfListAlreadyExists(listName);
-    if (exists) {
-      return Promise.reject({ message: strings.listExistsError });
-    } else {
-      try {
-      }catch(error){
-        return Promise.reject(error);
-      }
-      try {
-        this._SPListsCollection = await this._dataService.GetSPLists();
-      }catch(error){
-        return Promise.reject(error);
-      }
-      
-    }
-
-  }
-
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     return {
-      showLoadingIndicator: this._loadingIndicator,
       pages: [
         {
           header: {
@@ -203,7 +132,7 @@ export default class ImagesGalleryWebPart extends BaseClientSideWebPart<IImagesG
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneSlider(strings.AmountColumns, {
+                PropertyPaneSlider("numberOfColumns", {
                   label: strings.lblAmountColumns,
                   value:  3,
                   min:  1,
@@ -212,28 +141,18 @@ export default class ImagesGalleryWebPart extends BaseClientSideWebPart<IImagesG
               ]
             },
             {
+              //TODO: is dit wel de beste manier?
               groupName: strings.SelectListGroupname,
               groupFields: [
-                PropertyPaneDropdown(strings.PicturesURL, {
+                PropertyPaneDropdown("imageLibraryUrl", {
                   label: strings.lblPicturesURL,
                   options: this._SPListsCollection.map((listitem, i) => { 
                     return {
-                      key:listitem.Title,
+                      key:listitem.RootFolder.UniqueId,
                       text:listitem.Title,
                       index: i
-                    } 
+                    };
                   })
-                })
-              ]
-            },
-            {
-              groupName: strings.CreateListGroupName,
-              groupFields: [
-                new PropertyPaneCreateImageSource(strings.CreateListName, {
-                  buttonLabel: strings.dialogBtnLbl,
-                  dialogTitle: strings.dialogTitle,
-                  dialogText: strings.dialogText,
-                  saveAction: this._createConfigList.bind(this),
                 })
               ]
             }
@@ -242,5 +161,36 @@ export default class ImagesGalleryWebPart extends BaseClientSideWebPart<IImagesG
         }
       ]
     };
+  }
+
+  private _isWebPartConfigured(): boolean {
+    return !isEmpty(this.properties.imageLibraryUrl);
+  }
+
+  private _initializeRequiredProperties() {
+    this.properties.numberOfColumns = !isEmpty(this.properties.numberOfColumns) ? this.properties.numberOfColumns : 3;
+    this.properties.imageLibraryUrl = !isEmpty(this.properties.imageLibraryUrl) ? this.properties.imageLibraryUrl : "";
+  }
+
+  private _initThemeVariant(): void {
+    // Consume the new ThemeProvider service
+    this._themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey);
+
+    // If it exists, get the theme variant
+    this._themeVariant = this._themeProvider.tryGetTheme();
+
+    // Register a handler to be notified if the theme variant changes
+    this._themeProvider.themeChangedEvent.add(this, this._handleThemeChangedEvent.bind(this));
+  }
+
+  private _handleThemeChangedEvent(args: ThemeChangedEventArgs): void {
+    if (!isEqual(this._themeVariant, args.theme)) {
+        this._themeVariant = args.theme;
+        this.render();
+    }
+  }
+
+  private _setupWebPart() {
+    this.context.propertyPane.open();
   }
 }

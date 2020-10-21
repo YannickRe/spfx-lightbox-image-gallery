@@ -13,24 +13,23 @@
     "postversion": "gulp dist"
   },
   "dependencies": {
-    "react": "16.8.5",
-    "react-dom": "16.8.5",
-    "office-ui-fabric-react": "6.214.0",
+    "@creativeacer/spnamevalidator": "^8.1.1",
     "@microsoft/sp-core-library": "1.11.0",
-    "@microsoft/sp-property-pane": "1.11.0",
-    "@microsoft/sp-webpart-base": "1.11.0",
     "@microsoft/sp-lodash-subset": "1.11.0",
     "@microsoft/sp-office-ui-fabric-core": "1.11.0",
-
-    "@pnp/spfx-controls-react": "^1.19.0",
-    "@pnp/spfx-property-controls": "1.16.0",
+    "@microsoft/sp-property-pane": "1.11.0",
+    "@microsoft/sp-webpart-base": "1.11.0",
     "@pnp/common": "^2.0.6",
     "@pnp/logging": "^2.0.6",
     "@pnp/odata": "^2.0.7",
     "@pnp/pnpjs": "^2.0.3",
     "@pnp/sp": "^2.0.6",
-    "@creativeacer/spnamevalidator": "^8.1.1",
-    "react-awesome-lightbox": "^1.7.3"
+    "@pnp/spfx-controls-react": "2.0.0",
+    "@pnp/spfx-property-controls": "2.0.0",
+    "office-ui-fabric-react": "6.214.0",
+    "react": "16.8.5",
+    "react-awesome-lightbox": "^1.7.3",
+    "react-dom": "16.8.5"
   },
   "devDependencies": {
     "@microsoft/sp-build-web": "1.11.0",
@@ -42,7 +41,6 @@
     "@types/chai": "3.4.34",
     "@types/mocha": "2.2.38",
     "ajv": "~5.2.2",
-
     "@microsoft/microsoft-graph-types": "^1.12.0",
     "gulp-sequence": "1.0.0"
   }
