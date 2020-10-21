@@ -21,7 +21,7 @@ export default class Gallery extends React.Component<IImageProps, IImageState> {
   public render(): React.ReactElement<IImageProps> {
     return (
       <div onMouseEnter={() => this.setHover(true)} onMouseLeave={() => this.setHover(false)} onClick={(e) => this.props.photoClicked(this.props.index)} className={styles.zoom} >
-        <img src={this.props.photo.url} /><span className={this.state.classSpan}>{this.props.photo.title}</span>
+        <img src={this.props.photo.ServerRelativeUrl} /><span className={this.state.classSpan}>{this.props.photo.Name}</span>
       </div>
     );
   }

@@ -1,45 +1,39 @@
 import { IDataService } from "../models/IDataService";
-import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { sp } from "@pnp/pnpjs";
 import { IFolderInfo, IFolder } from "@pnp/sp/folders";
 import { IFileInfo } from "@pnp/sp/files";
-import TreeBuilder from "../helpers/treeBuilder";
-import { ITreeBody } from "../models/treeBody.interface";
 import { IListInfo } from "@pnp/sp/lists";
+import { IFolderData } from "../models/IFolderData";
 
 export default class DataService implements IDataService {
-    private _treeBuilder: TreeBuilder;
-
-    constructor(protected context: WebPartContext){
-      this._treeBuilder = new TreeBuilder();
+    public async getLists(): Promise<IListInfo[]> {
+        let lists = await sp.web.lists.select("Title", "BaseTemplate", "RootFolder").expand('RootFolder').get();
+        lists = lists.filter(item => item["BaseTemplate"] === 109 || item["BaseTemplate"] === 101);
+        return lists;
     }
 
-    public async getSPLists(): Promise<IListInfo[]> {
-        let lists = await sp.web.lists.select("Title", "BaseTemplate", "RootFolder").expand('RootFolder').get();
-        let filtered = lists.filter((item) => {
-          return item["BaseTemplate"] === 109 || item["BaseTemplate"] === 101;
-        })
-        return filtered;
-    };
+    public async getFolderData(folderUniqueId: string) : Promise<IFolderData> {
+      let folder = await sp.web.getFolderById(folderUniqueId);
+      let folderInfo = await folder.get();
+      let subFolders = await this.getSubFolders(folder);
+      let files = await this.getFilesFromFolder(folder);
 
-    public async getPicturesFolder(folderUniqueId: string) : Promise<ITreeBody> {
-      let rootFolder = await sp.web.getFolderById(folderUniqueId);
-      let subFolders = await this.getSubFolders(rootFolder);
-      let files = await this.getFilesFromFolder(rootFolder);
-      let pageurl = this.context.pageContext.web.absoluteUrl + "/" + folderUniqueId + "/";
-      let body = await this._treeBuilder.buildImageTree(subFolders, files, pageurl);
-      return body;
+      return {
+        folder: folderInfo,
+        subFolders: subFolders,
+        files: files
+      };
     }
   
     private async getSubFolders(folder: IFolder): Promise<IFolderInfo[]> {
-        return await folder.folders();
-    };
+        let folders = await folder.folders();
+        folders = folders.filter(sf => !sf.IsWOPIEnabled && sf.ItemCount > 0);
+        return folders;
+    }
 
     private async getFilesFromFolder(folder: IFolder): Promise<IFileInfo[]> {
         let files = await folder.files();
-        let filteredFiles = files.filter((fileData, i)=> {
-          return ["jpg","jpeg","png"].indexOf(fileData.Name.toLocaleLowerCase().split('.').pop()) !== -1
-        })
-        return filteredFiles;
+        files = files.filter(fileData => ["jpg","jpeg","png"].indexOf(fileData.Name.toLocaleLowerCase().split('.').pop()) !== -1);
+        return files;
     } 
 }

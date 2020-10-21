@@ -1,7 +1,7 @@
-import { IImageItem } from "../../../../../models/IImageItem.interface";
+import { IFileInfo } from "@pnp/sp/files";
 
 export interface IImageProps {
-  photo: IImageItem;
+  photo: IFileInfo;
   index: number;
   photoClicked:  (index: number) => void;
 }

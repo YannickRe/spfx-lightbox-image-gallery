@@ -17,7 +17,8 @@
     "officeFabricIconFontName": "PhotoCollection",
     "properties": {
       "webPartTitle": "Images Gallery",
-      "showBlank": true
+      "numberOfColumns": 3,
+      "imageLibraryRootFolderUniqueId": ""
     }
   }]
 }

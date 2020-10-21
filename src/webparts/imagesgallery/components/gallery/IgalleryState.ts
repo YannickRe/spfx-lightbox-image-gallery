@@ -1,5 +1,5 @@
-import { IImageItem } from "../../../../models/IImageItem.interface";
+import { IFileInfo } from "@pnp/sp/files";
 
 export interface IGalleryState {
-    photosState: IImageItem[];
+    photosState: IFileInfo[];
   }

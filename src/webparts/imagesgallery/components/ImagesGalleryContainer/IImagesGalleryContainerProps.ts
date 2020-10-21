@@ -8,7 +8,6 @@ export interface IImagesGalleryContainerProps {
   dataService: IDataService;
   numberOfColumns: number;
   webPartTitle: string;
-  showBlank: boolean;
   displayMode: DisplayMode;
   themeVariant: IReadonlyTheme | undefined;
   updateWebPartTitle: (value: string) => void;

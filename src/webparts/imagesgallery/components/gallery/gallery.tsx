@@ -15,8 +15,6 @@ export default class Gallery extends React.Component<IGalleryProps, {}> {
     this._amountColumsCSS = {
       columnCount: this.props.amountColumns
     }
-
-    // this.imageClicked = this.imageClicked.bind(this)
   }
 
   public render(): React.ReactElement<IGalleryProps> {

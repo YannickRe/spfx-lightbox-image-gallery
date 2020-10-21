@@ -1,7 +1,7 @@
-import { IImageItem } from "../../../../models/IImageItem.interface";
+import { IFileInfo } from "@pnp/sp/files";
 
 export interface IGalleryProps {
-  photos: IImageItem[];
+  photos: IFileInfo[];
   amountColumns: number;
   imgClicked:  (_imgIndex: number) => void;
 }

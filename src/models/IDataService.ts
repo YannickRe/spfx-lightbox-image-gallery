@@ -1,7 +1,7 @@
 import { IListInfo } from "@pnp/sp/lists";
-import { ITreeBody } from "./treeBody.interface";
+import { IFolderData } from "./IFolderData";
 
 export interface IDataService {
- getPicturesFolder(folderUniqueId: string): Promise<ITreeBody>;
- getSPLists(): Promise<IListInfo[]>;
+ getFolderData(folderUniqueId: string): Promise<IFolderData>;
+ getLists(): Promise<IListInfo[]>;
 }

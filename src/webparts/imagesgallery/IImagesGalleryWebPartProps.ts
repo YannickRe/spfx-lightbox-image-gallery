@@ -1,6 +1,5 @@
 export interface IImagesGalleryWebPartProps {
-    imageLibraryUrl: string;
+    imageLibraryRootFolderUniqueId: string;
     numberOfColumns: number;
-    showBlank: boolean;
     webPartTitle: string;
 }

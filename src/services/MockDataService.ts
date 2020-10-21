@@ -2,17 +2,16 @@ import { IDataService } from "../models/IDataService";
 
 export default class MockDataService implements IDataService {
 
-  public getSPLists(): Promise<any> {
+  public getLists(): Promise<any> {
       return Promise.resolve([{
         Id: 1,
         Title: "List One",
         ParentWebUrl: "string",
         NavUrl: "string"
       }]);
+  }
 
-  };
-
-  public getPicturesFolder(listName: string) : Promise<any> {
+  public getFolderData(listName: string) : Promise<any> {
     return Promise.resolve({
       Id: 1,
       Title: "string",
@@ -23,11 +22,9 @@ export default class MockDataService implements IDataService {
 
   private getFoldersFromList(path: string): Promise<any> {
     return Promise.resolve();
-  };
+  }
 
   private getFilesFromFolder(path: string): Promise<any> {
     return Promise.resolve();
   }
-
-    
 }

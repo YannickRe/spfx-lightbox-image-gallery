@@ -7,7 +7,7 @@ import styles from '../ImagesGalleryWebPart.module.scss';
 import { IImagesGalleryContainerProps } from './IImagesGalleryContainerProps';
 import { IImagesGalleryContainerState } from './IImagesGalleryContainerState';
 
-import { isEqual, isEmpty } from "@microsoft/sp-lodash-subset";
+import { isEqual, isEmpty, findIndex } from "@microsoft/sp-lodash-subset";
 
 import {
   Spinner,
@@ -15,17 +15,15 @@ import {
   MessageBar,
   MessageBarType,
   Breadcrumb,
+  IBreadcrumbItem,
+  Overlay,
+  ITheme
 } from "office-ui-fabric-react";
-import { Overlay } from 'office-ui-fabric-react/lib/Overlay';
-import { ITheme } from 'office-ui-fabric-react/lib/Styling';
 import { WebPartTitle } from "@pnp/spfx-controls-react/lib/WebPartTitle";
-import { DisplayMode } from "@microsoft/sp-core-library";
-
 
 import Gallery from '../gallery/gallery';
 import { IFolderInfo } from '@pnp/sp/folders';
 import FolderIcon  from '../folder/folder';
-import { breadCrumbItem } from '../../../../models/breadCrumbItem.interface';
 import Lightbox from "react-awesome-lightbox";
 import "react-awesome-lightbox/build/style.css";
 
@@ -40,19 +38,22 @@ export class ImagesGalleryContainer extends React.Component<IImagesGalleryContai
       errorMessage: '',
       isOpen: false,
       selectedImageIndex: 0,
-      folders: [],
-      photos: [],
-      breadCrumb: [{text: this.props.imageLibraryRootFolderUniqueId, key: this.props.imageLibraryRootFolderUniqueId, relativefolderUrl: `${this.props.rootUrl}/${this.props.imageLibraryRootFolderUniqueId}`, onClick: (ev: React.MouseEvent<HTMLElement>, item: breadCrumbItem) => { this.selectedBreadCrumb(item); }}],
+      folderData: {
+        folder: null,
+        files: [],
+        subFolders: []
+      },
+      breadCrumb: [],
     };
   }  
 
   public async componentDidMount() {
-    await this._fetchDocumentLibraryItems(this.props.imageLibraryRootFolderUniqueId);
+    await this._fetchDocumentLibraryItems(this.props.imageLibraryRootFolderUniqueId, true);
   }
 
   public async componentDidUpdate(prevProps: IImagesGalleryContainerProps, prevState: IImagesGalleryContainerState) {
     if (!isEqual(this.props, prevProps)) {
-      await this._fetchDocumentLibraryItems(this.props.imageLibraryRootFolderUniqueId);
+      await this._fetchDocumentLibraryItems(this.props.imageLibraryRootFolderUniqueId, true);
     }
   }
 
@@ -60,8 +61,8 @@ export class ImagesGalleryContainer extends React.Component<IImagesGalleryContai
     const areResultsLoading = this.state.areResultsLoading;
     const hasError = this.state.hasError;
     const errorMessage = this.state.errorMessage;
-    const folders = this.state.folders;
-    const photos = this.state.photos;
+    const subFolders = this.state.folderData.subFolders;
+    const photos = this.state.folderData.files;
 
     const { semanticColors }: IReadonlyTheme = this.props.themeVariant;
 
@@ -82,26 +83,22 @@ export class ImagesGalleryContainer extends React.Component<IImagesGalleryContai
     // WebPart title
     renderWebPartTitle = <WebPartTitle displayMode={this.props.displayMode} title={this.props.webPartTitle} updateProperty={(value: string) => this.props.updateWebPartTitle(value)} />;
 
-    if (isEmpty(folders) && isEmpty(photos) && this.props.showBlank) {
-      if (this.props.displayMode === DisplayMode.Edit) {
-        renderWebPartContent = <MessageBar messageBarType={MessageBarType.info}>{strings.ShowBlankEditInfoMessage}</MessageBar>;
-      }
-      else {
-        renderWebPartTitle = null;
-      }
+    if (isEmpty(subFolders) && isEmpty(photos)) {
+      renderWebPartContent = <MessageBar messageBarType={MessageBarType.info}>{strings.ShowBlankEditInfoMessage}</MessageBar>;
     } else {
       if (this.state.isOpen) {
-        renderLightbox = <Lightbox images={this.state.photos} onClose={() => this.setGallerystate()} startIndex={this.state.selectedImageIndex} showTitle={true} />;
+        renderLightbox = <Lightbox images={photos.map(f => f.ServerRelativeUrl)} onClose={() => this._closeLightBox()} startIndex={this.state.selectedImageIndex} showTitle={true} />;
       }
+
       renderWebPartContent =
         <React.Fragment>
           {renderOverlay}
-          <Breadcrumb items={this.state.breadCrumb} theme={this.props.themeVariant as ITheme}></Breadcrumb>
-          <FolderIcon items={this.state.folders} folderClicked={(_folder) => this.selectedFolderData(_folder)}></FolderIcon>
+          <Breadcrumb items={this._getBreadCrumbData()} maxDisplayedItems={5} theme={this.props.themeVariant as ITheme} />
+          <FolderIcon items={subFolders} folderClicked={async f => await this._fetchDocumentLibraryItems(f.UniqueId)}></FolderIcon>
           {renderLightbox}
           <Gallery 
-            photos={this.state.photos}
-            imgClicked={(_img) => this.selectedImage(_img)}
+            photos={photos}
+            imgClicked={(_img) => this._openLightBox(_img)}
             amountColumns={this.props.numberOfColumns}>
           </Gallery>
         </React.Fragment>;
@@ -121,8 +118,29 @@ export class ImagesGalleryContainer extends React.Component<IImagesGalleryContai
       </div>
     );
   }
+  
+  private _getBreadCrumbData(): IBreadcrumbItem[] {
+    return this.state.breadCrumb.map(f => ({
+      text: f.Name,
+      key: f.UniqueId,
+      onClick: async (ev, item) => await this._fetchDocumentLibraryItems(item.key)
+    } as IBreadcrumbItem));
+  }
 
-  private async _fetchDocumentLibraryItems(uniqueFolderId: string): Promise<void> {
+  private _getBreadCrumbState(prevBreadCrumbState: IFolderInfo[], folder: IFolderInfo, reset: boolean): IFolderInfo[] {
+    if (reset) {
+      return [folder];
+    }
+
+    let existingItemIndex = findIndex(prevBreadCrumbState, f => f.UniqueId === folder.UniqueId);
+    if (existingItemIndex > -1) {
+      return prevBreadCrumbState.slice(0, existingItemIndex + 1);
+    }
+
+    return [...prevBreadCrumbState, folder];
+  }
+
+  private async _fetchDocumentLibraryItems(uniqueFolderId: string, reset: boolean = false): Promise<void> {
     try {
       this.setState({
         areResultsLoading: true,
@@ -130,12 +148,14 @@ export class ImagesGalleryContainer extends React.Component<IImagesGalleryContai
         errorMessage: ""
       });
 
-      let treeData = await this.props.dataService.getPicturesFolder(uniqueFolderId);
-      this.setState({
+      let folderData = await this.props.dataService.getFolderData(uniqueFolderId);
+
+      this.setState((prevState) => ({
         areResultsLoading: false,
-        folders: treeData.folders,
-        photos: treeData.photos
-      });
+        folderData: folderData,
+        breadCrumb: this._getBreadCrumbState(prevState.breadCrumb, folderData.folder, reset)
+      }));
+
     } catch (error) {
       this.setState({
           areResultsLoading: false,
@@ -145,51 +165,16 @@ export class ImagesGalleryContainer extends React.Component<IImagesGalleryContai
     }
   }
 
-  //TODO: alles hieronder heeft een makeover nodig...
-
-  private selectedFolderData = (folderData: IFolderInfo) => {
-    this.setState((state) => {
-      const _breadCrumbState = [...state.breadCrumb, {text: folderData.Name, key:folderData.UniqueId, relativefolderUrl: folderData.ServerRelativeUrl, onClick: (ev: React.MouseEvent<HTMLElement>, item: breadCrumbItem) => { () => this.selectedBreadCrumb(item); }}];
-      return {
-        breadCrumb: _breadCrumbState
-      };
+  private _openLightBox(imgIndex: number): void {
+    this.setState({
+      selectedImageIndex: imgIndex,
+      isOpen: true
     });
-    this._fetchDocumentLibraryItems(folderData.UniqueId);
-  }
-  private selectedImage = (imgIndex: number) => {
-    this.setState((state) => {
-      return {
-        selectedImageIndex: imgIndex
-      };
-    });
-    this.setGallerystate();
   }
 
-  private selectedBreadCrumb = (breadCrumbfolder: breadCrumbItem) => {
-    let clickedItem: breadCrumbItem = null;
-    let keepBreadcrumbItems: breadCrumbItem[] = [];
-    this.state.breadCrumb.forEach((breadCrumb, index) => {
-      if(breadCrumb.key === breadCrumbfolder.key){
-        clickedItem = breadCrumb;
-        keepBreadcrumbItems.push(breadCrumb);
-      }else if (breadCrumb.key !== breadCrumbfolder.key && clickedItem === null){
-        keepBreadcrumbItems.push(breadCrumb);
-      }
-    });
-    this.setState((state) => {
-      return {
-        breadCrumb: keepBreadcrumbItems
-      };
-    });
-    this._fetchDocumentLibraryItems(clickedItem.key);
-  }
-
-  private setGallerystate = () => {
-    console.log(this.state.photos);
-    this.setState((state) => {
-      return {
-        isOpen: !state.isOpen
-      };
+  private _closeLightBox(): void {
+    this.setState({
+      isOpen: false
     });
   }
 }

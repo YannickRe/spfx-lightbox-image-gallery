@@ -18,6 +18,7 @@ import MockDataService from '../../services/MockDataService';
 import DataService from '../../services/DataService';
 import {IImagesGalleryWebPartProps} from './IImagesGalleryWebPartProps';
 import { IListInfo } from '@pnp/sp/lists';
+import { PropertyPaneHelpers } from '@pnp/spfx-property-controls/lib/helpers';
 
 export default class ImagesGalleryWebPart extends BaseClientSideWebPart<IImagesGalleryWebPartProps> {
   private _dataService: IDataService;
@@ -25,7 +26,7 @@ export default class ImagesGalleryWebPart extends BaseClientSideWebPart<IImagesG
   private _themeProvider: ThemeProvider;
   private _themeVariant: IReadonlyTheme;
   private _initComplete = false;
-  private _SPListsCollection: IListInfo[] = [];
+  private _availableLists: IListInfo[] = [];
   
   public async render(): Promise<void> {
     if (!this._initComplete) {
@@ -55,13 +56,12 @@ export default class ImagesGalleryWebPart extends BaseClientSideWebPart<IImagesG
       renderElement = React.createElement(
         ImagesGalleryContainer,
         {
-          imageLibraryRootFolderUniqueId: this.properties.imageLibraryUrl,
+          imageLibraryRootFolderUniqueId: this.properties.imageLibraryRootFolderUniqueId,
           rootUrl: this.context.pageContext.web.serverRelativeUrl,
           numberOfColumns: this.properties.numberOfColumns,
           themeVariant: this._themeVariant,
           dataService: this._dataService,
           displayMode: this.displayMode,
-          showBlank: this.properties.showBlank,
           webPartTitle: this.properties.webPartTitle,
           updateWebPartTitle: (value: string) => {
             this.properties.webPartTitle = value;
@@ -73,10 +73,10 @@ export default class ImagesGalleryWebPart extends BaseClientSideWebPart<IImagesG
           const placeholder: React.ReactElement<any> = React.createElement(
               this._placeholder,
               {
-                  iconName: strings.placeholderIconName,
-                  iconText: strings.placeholderName,
-                  description: strings.placeholderDescription,
-                  buttonLabel: strings.placeholderbtnLbl,
+                  iconName: strings.PlaceholderIconName,
+                  iconText: strings.PlaceholderName,
+                  description: strings.PlaceholderDescription,
+                  buttonLabel: strings.PlaceholderButton,
                   onConfigure: () => { this._setupWebPart(); }
               }
           );
@@ -90,22 +90,18 @@ export default class ImagesGalleryWebPart extends BaseClientSideWebPart<IImagesG
   }
   
   public async onInit(): Promise<void> {
-    this._initializeRequiredProperties();
-
     this._initThemeVariant();
 
     if (Environment.type in [EnvironmentType.Local, EnvironmentType.Test]) {
       this._dataService = new MockDataService();
     }
     else {
-      this._dataService = new DataService(this.context);
+      this._dataService = new DataService();
     }
 
-    //TODO: is dit nog nodig, kan dit beter?
     sp.setup({
       spfxContext: this.context
     });
-    this._SPListsCollection = await this._dataService.getSPLists();
 
     this._initComplete = true;
 
@@ -125,28 +121,12 @@ export default class ImagesGalleryWebPart extends BaseClientSideWebPart<IImagesG
     return {
       pages: [
         {
-          header: {
-            description: strings.PropertyPaneDescription
-          },
           groups: [
             {
-              groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneSlider("numberOfColumns", {
-                  label: strings.lblAmountColumns,
-                  value:  3,
-                  min:  1,
-                  max: 10
-                })
-              ]
-            },
-            {
-              //TODO: is dit wel de beste manier?
-              groupName: strings.SelectListGroupname,
-              groupFields: [
-                PropertyPaneDropdown("imageLibraryUrl", {
-                  label: strings.lblPicturesURL,
-                  options: this._SPListsCollection.map((listitem, i) => { 
+                PropertyPaneDropdown("imageLibraryRootFolderUniqueId", {
+                  label: strings.ImageLibraryRootFolderUniqueId,
+                  options: this._availableLists.map((listitem, i) => { 
                     return {
                       key:listitem.RootFolder.UniqueId,
                       text:listitem.Title,
@@ -155,21 +135,33 @@ export default class ImagesGalleryWebPart extends BaseClientSideWebPart<IImagesG
                   })
                 })
               ]
+            },
+            {
+              groupFields: [
+                PropertyPaneSlider("numberOfColumns", {
+                  label: strings.NumberOfColumns,
+                  value:  3,
+                  min:  1,
+                  max: 10
+                })
+              ]
             }
-          ],
-          displayGroupsAsAccordion: true
+          ]
         }
       ]
     };
   }
 
-  private _isWebPartConfigured(): boolean {
-    return !isEmpty(this.properties.imageLibraryUrl);
+  protected async loadPropertyPaneResources(): Promise<void> {
+    PropertyPaneHelpers.setSpinner();
+
+    this._availableLists = await this._dataService.getLists();
+
+    PropertyPaneHelpers.clearSpinner(200);
   }
 
-  private _initializeRequiredProperties() {
-    this.properties.numberOfColumns = !isEmpty(this.properties.numberOfColumns) ? this.properties.numberOfColumns : 3;
-    this.properties.imageLibraryUrl = !isEmpty(this.properties.imageLibraryUrl) ? this.properties.imageLibraryUrl : "";
+  private _isWebPartConfigured(): boolean {
+    return !isEmpty(this.properties.imageLibraryRootFolderUniqueId);
   }
 
   private _initThemeVariant(): void {

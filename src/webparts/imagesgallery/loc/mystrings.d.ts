@@ -1,13 +1,10 @@
 declare interface IImagesGalleryWebPartStrings {
-  PropertyPaneDescription: string;
-  BasicGroupName: string;
-  lblAmountColumns: string;
-  SelectListGroupname: string;
-  lblPicturesURL: string;
-  placeholderIconName: string;
-  placeholderName:string;
-  placeholderDescription:string;
-  placeholderbtnLbl:string;
+  NumberOfColumns: string;
+  ImageLibraryRootFolderUniqueId: string;
+  PlaceholderIconName: string;
+  PlaceholderName: string;
+  PlaceholderDescription: string;
+  PlaceholderButton: string;
   ShowBlankEditInfoMessage: string;
 }
 
