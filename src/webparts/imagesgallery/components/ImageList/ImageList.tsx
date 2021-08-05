@@ -18,7 +18,7 @@ export default class ImageList extends React.Component<IImageListProps, {}> {
   public render(): React.ReactElement<IImageListProps> {
     const allImages = [];
     this.props.imagesInfo.forEach((image, index) => {
-      allImages.push(<Image key={index} imageInfo={image} rootUrl={this.props.rootUrl} ></Image>);
+      allImages.push(<Image key={index} imageInfo={image} rootUrl={this.props.rootUrl} />);
     });
     
     return (

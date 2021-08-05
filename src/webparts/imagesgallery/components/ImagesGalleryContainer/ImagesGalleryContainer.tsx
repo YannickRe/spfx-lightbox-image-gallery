@@ -23,8 +23,9 @@ import { WebPartTitle } from "@pnp/spfx-controls-react/lib/WebPartTitle";
 
 import ImageList from '../ImageList/ImageList';
 import { IFolderInfo } from '@pnp/sp/folders';
-import FolderIcon  from '../folder/folder';
+import Folder  from '../Folder/Folder';
 import SimpleReactLightbox from 'simple-react-lightbox';
+import FolderList from '../FolderList/FolderList';
 
 export class ImagesGalleryContainer extends React.Component<IImagesGalleryContainerProps, IImagesGalleryContainerState> {
   
@@ -59,12 +60,13 @@ export class ImagesGalleryContainer extends React.Component<IImagesGalleryContai
     const hasError = this.state.hasError;
     const errorMessage = this.state.errorMessage;
     const subFolders = this.state.folderData.subFolders;
-    const photos = this.state.folderData.files;
+    const images = this.state.folderData.files;
 
     const { semanticColors }: IReadonlyTheme = this.props.themeVariant;
 
     let renderWebPartTitle: JSX.Element = null;
     let renderWebPartContent: JSX.Element = null;
+    let renderWebPartEmptyMessage: JSX.Element = null;
     let renderOverlay: JSX.Element = null;
     let renderLightbox: JSX.Element = null;
 
@@ -80,18 +82,18 @@ export class ImagesGalleryContainer extends React.Component<IImagesGalleryContai
     // WebPart title
     renderWebPartTitle = <WebPartTitle displayMode={this.props.displayMode} title={this.props.webPartTitle} updateProperty={(value: string) => this.props.updateWebPartTitle(value)} />;
 
-    if (isEmpty(subFolders) && isEmpty(photos)) {
-      renderWebPartContent = <MessageBar messageBarType={MessageBarType.info}>{strings.ShowBlankEditInfoMessage}</MessageBar>;
-    } else {
-      renderWebPartContent =
+    if (isEmpty(subFolders) && isEmpty(images)) {
+      renderWebPartEmptyMessage = <MessageBar messageBarType={MessageBarType.info}>{strings.ShowBlankEditInfoMessage}</MessageBar>;
+    }
+    renderWebPartContent =
         <SimpleReactLightbox>
           {renderOverlay}
           <Breadcrumb items={this._getBreadCrumbData()} maxDisplayedItems={5} theme={this.props.themeVariant as ITheme} />
-          <FolderIcon items={subFolders} folderClicked={async f => await this._fetchDocumentLibraryItems(f.UniqueId)}></FolderIcon>
+          {renderWebPartEmptyMessage}
+          <FolderList foldersInfo={subFolders} onClick={async (folderInfo) => await this._fetchDocumentLibraryItems(folderInfo.UniqueId)} />
           {renderLightbox}
-          <ImageList rootUrl={this.props.rootUrl} imagesInfo={photos} />
+          <ImageList rootUrl={this.props.rootUrl} imagesInfo={images} />
         </SimpleReactLightbox>;
-    }
     
     // Error Message
     if (hasError) {
