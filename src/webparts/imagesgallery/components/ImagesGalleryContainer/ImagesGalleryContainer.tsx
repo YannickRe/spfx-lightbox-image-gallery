@@ -24,8 +24,7 @@ import { WebPartTitle } from "@pnp/spfx-controls-react/lib/WebPartTitle";
 import ImageList from '../ImageList/ImageList';
 import { IFolderInfo } from '@pnp/sp/folders';
 import FolderIcon  from '../folder/folder';
-import Lightbox from "react-awesome-lightbox";
-import "react-awesome-lightbox/build/style.css";
+import SimpleReactLightbox from 'simple-react-lightbox';
 
 export class ImagesGalleryContainer extends React.Component<IImagesGalleryContainerProps, IImagesGalleryContainerState> {
   
@@ -36,8 +35,6 @@ export class ImagesGalleryContainer extends React.Component<IImagesGalleryContai
       hasError: false,
       areResultsLoading: false,
       errorMessage: '',
-      isOpen: false,
-      selectedImageIndex: 0,
       folderData: {
         folder: null,
         files: [],
@@ -86,21 +83,14 @@ export class ImagesGalleryContainer extends React.Component<IImagesGalleryContai
     if (isEmpty(subFolders) && isEmpty(photos)) {
       renderWebPartContent = <MessageBar messageBarType={MessageBarType.info}>{strings.ShowBlankEditInfoMessage}</MessageBar>;
     } else {
-      if (this.state.isOpen) {
-        renderLightbox = <Lightbox images={photos.map(f => f.ServerRelativeUrl)} onClose={() => this._closeLightBox()} startIndex={this.state.selectedImageIndex} showTitle={true} />;
-      }
-
       renderWebPartContent =
-        <React.Fragment>
+        <SimpleReactLightbox>
           {renderOverlay}
           <Breadcrumb items={this._getBreadCrumbData()} maxDisplayedItems={5} theme={this.props.themeVariant as ITheme} />
           <FolderIcon items={subFolders} folderClicked={async f => await this._fetchDocumentLibraryItems(f.UniqueId)}></FolderIcon>
           {renderLightbox}
-          <ImageList 
-            imagesInfo={photos}
-            onClick={(_img) => this._openLightBox(_img)}>
-          </ImageList>
-        </React.Fragment>;
+          <ImageList rootUrl={this.props.rootUrl} imagesInfo={photos} />
+        </SimpleReactLightbox>;
     }
     
     // Error Message
@@ -162,18 +152,5 @@ export class ImagesGalleryContainer extends React.Component<IImagesGalleryContai
           errorMessage: error.message
       });
     }
-  }
-
-  private _openLightBox(imgIndex: number): void {
-    this.setState({
-      selectedImageIndex: imgIndex,
-      isOpen: true
-    });
-  }
-
-  private _closeLightBox(): void {
-    this.setState({
-      isOpen: false
-    });
   }
 }
