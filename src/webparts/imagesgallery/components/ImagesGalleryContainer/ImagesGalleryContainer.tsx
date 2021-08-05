@@ -21,7 +21,7 @@ import {
 } from "office-ui-fabric-react";
 import { WebPartTitle } from "@pnp/spfx-controls-react/lib/WebPartTitle";
 
-import Gallery from '../gallery/gallery';
+import ImageList from '../ImageList/ImageList';
 import { IFolderInfo } from '@pnp/sp/folders';
 import FolderIcon  from '../folder/folder';
 import Lightbox from "react-awesome-lightbox";
@@ -96,11 +96,10 @@ export class ImagesGalleryContainer extends React.Component<IImagesGalleryContai
           <Breadcrumb items={this._getBreadCrumbData()} maxDisplayedItems={5} theme={this.props.themeVariant as ITheme} />
           <FolderIcon items={subFolders} folderClicked={async f => await this._fetchDocumentLibraryItems(f.UniqueId)}></FolderIcon>
           {renderLightbox}
-          <Gallery 
-            photos={photos}
-            imgClicked={(_img) => this._openLightBox(_img)}
-            amountColumns={this.props.numberOfColumns}>
-          </Gallery>
+          <ImageList 
+            imagesInfo={photos}
+            onClick={(_img) => this._openLightBox(_img)}>
+          </ImageList>
         </React.Fragment>;
     }
     

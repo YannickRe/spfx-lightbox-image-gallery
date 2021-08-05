@@ -6,7 +6,6 @@ export interface IImagesGalleryContainerProps {
   imageLibraryRootFolderUniqueId: string;
   rootUrl: string;
   dataService: IDataService;
-  numberOfColumns: number;
   webPartTitle: string;
   displayMode: DisplayMode;
   themeVariant: IReadonlyTheme | undefined;

@@ -58,7 +58,6 @@ export default class ImagesGalleryWebPart extends BaseClientSideWebPart<IImagesG
         {
           imageLibraryRootFolderUniqueId: this.properties.imageLibraryRootFolderUniqueId,
           rootUrl: this.context.pageContext.web.serverRelativeUrl,
-          numberOfColumns: this.properties.numberOfColumns,
           themeVariant: this._themeVariant,
           dataService: this._dataService,
           displayMode: this.displayMode,
@@ -133,16 +132,6 @@ export default class ImagesGalleryWebPart extends BaseClientSideWebPart<IImagesG
                       index: i
                     };
                   })
-                })
-              ]
-            },
-            {
-              groupFields: [
-                PropertyPaneSlider("numberOfColumns", {
-                  label: strings.NumberOfColumns,
-                  value:  3,
-                  min:  1,
-                  max: 10
                 })
               ]
             }
