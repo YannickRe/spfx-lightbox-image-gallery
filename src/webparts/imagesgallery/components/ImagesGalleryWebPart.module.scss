@@ -31,7 +31,8 @@
             cursor: pointer;
             
             &:hover{
-                background: rgb(111,109,109);
+                background: "[theme: listItemBackgroundHovered, default: #f4f4f4]";
+                color: "[theme: bodyText, default: #f4f4f4]";
             }
 
             .folderTileContent {
@@ -107,7 +108,8 @@
                         max-width: 100%;
 
                         .folderTileNameText {
-                            max-width: 100%;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
                         }
                     }
                 }

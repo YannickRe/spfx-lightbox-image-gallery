@@ -13,7 +13,7 @@ export default class Folder extends React.Component<IFolderProps, {}> {
 
   public render(): React.ReactElement<IFolderProps> {
     return (
-      <div className={styles.folderTile} onClick={(e) => this.props.onClick(this.props.folderInfo)}>
+      <div title={this.props.folderInfo.Name} className={styles.folderTile} onClick={(e) => this.props.onClick(this.props.folderInfo)}>
         <div className={styles.folderTileContent}>
           <div className={styles.folderIcon}>
             <i aria-hidden="true">
@@ -27,7 +27,7 @@ export default class Folder extends React.Component<IFolderProps, {}> {
           </div>
           <span className={styles.folderTileNamePlate}>
             <span className={styles.folderTileName}>
-                <div className={styles.folderTileNameText}>Chatbestanden van Microsoft Teams</div>
+                <div className={styles.folderTileNameText}>{this.props.folderInfo.Name}</div>
             </span>
           </span>
         </div>
