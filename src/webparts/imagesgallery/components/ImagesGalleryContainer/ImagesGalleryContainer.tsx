@@ -23,7 +23,6 @@ import { WebPartTitle } from "@pnp/spfx-controls-react/lib/WebPartTitle";
 
 import ImageList from '../ImageList/ImageList';
 import { IFolderInfo } from '@pnp/sp/folders';
-import Folder  from '../Folder/Folder';
 import SimpleReactLightbox from 'simple-react-lightbox';
 import FolderList from '../FolderList/FolderList';
 
