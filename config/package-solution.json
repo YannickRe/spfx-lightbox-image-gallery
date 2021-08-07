@@ -8,7 +8,7 @@
       "websiteUrl": "https://contoso.com/my-app",
       "mpnId": "000000"
     },
-    "name": "SharePoint Images Gallery",
+    "name": "SharePoint Lightbox Image Gallery",
     "id": "a7d34cfc-bc45-4910-9ec5-3e2ca97a5d27",
     "version": "1.0.0.0",
     "includeClientSideAssets": true,
@@ -16,6 +16,6 @@
     "isDomainIsolated": false
   },
   "paths": {
-    "zippedPackage": "solution/spfx-sp-images-gallery.sppkg"
+    "zippedPackage": "solution/spfx-lightbox-image-gallery.sppkg"
   }
 }

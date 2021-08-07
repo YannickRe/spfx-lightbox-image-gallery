@@ -1,0 +1,13 @@
+{
+    "@microsoft/generator-sharepoint": {
+      "version": "1.12.1",
+      "libraryName": "spfx-lightbox-image-gallery",
+      "libraryId": "a7d34cfc-bc45-4910-9ec5-3e2ca97a5d27",
+      "environment": "spo",
+      "packageManager": "npm",
+      "framework": "react",
+      "isCreatingSolution": true,
+      "isDomainIsolated": false,
+      "componentType": "webpart"
+    }
+  }
