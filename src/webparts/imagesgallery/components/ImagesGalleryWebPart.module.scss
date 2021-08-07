@@ -1,0 +1,128 @@
+@import '~office-ui-fabric-react/dist/sass/References.scss';
+
+.imagesGalleryWebpart {
+    position: relative;
+}
+
+.imagesGalleryWebpart {
+    .imageList{
+        gap: 5px;
+        columns: 200px;
+    }
+    
+    .imageList img {
+        width: 100% !important;
+        height: auto !important;
+        pointer-events: auto;
+        cursor: pointer;
+    }
+
+    .folderList{
+        position: inherit;
+        display: flex;
+        flex-wrap: wrap;
+        padding-bottom: 5px;
+    
+        .folderTile {
+            flex: 0 0 176px;
+            max-width: 176px;
+            margin: 4px;
+            border-style: none;
+            border-width: 0;
+            pointer-events: auto;
+            cursor: pointer;
+            
+            &:hover{
+                background: "[theme: listItemBackgroundHovered, default: #f4f4f4]";
+                color: "[theme: bodyText, default: #f4f4f4]";
+            }
+
+            .folderTileContent {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                margin: 16px 16px 0 16px;
+
+                .folderIcon {
+                    display: inline-flex;
+                    position: relative;
+                    vertical-align: bottom;
+                    flex-direction: row;
+                    align-items: flex-end;
+        
+                    .folderFront {
+                        position: absolute;
+                        left: 0;
+                        display: block;
+                        width: 118px;
+                        height: 86px;
+                        bottom: 4px;
+                    }
+            
+                    .folderPaper{
+                        background-color: #f5f5f5;
+                        position: absolute;
+                        left: 7px;
+                        top: 14px;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        width: 104px;
+                        height: 64px;
+                    }
+            
+                    .folderCount{
+                        color: #bf5712;
+                        position: absolute;
+                        margin-left: 10px;
+                        margin-bottom: 12px;
+                    }
+                }
+
+                .folderTileNamePlate {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: flex-end;
+                    position: relative;
+                    margin: auto 0 0 0;
+                    padding: 12px 8px;
+                    text-align: center;
+                    z-index: 0;
+                    max-width: 100%;
+
+                    .folderTileName {
+                        pointer-events: auto;
+                        cursor: pointer;
+                        font-size: 14px;
+                        height: 30px;
+                        margin-top: -7px;
+                        margin-bottom: -8px;
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: center;
+                        font-weight: 400;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        max-width: 100%;
+
+                        .folderTileNameText {
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.overlay {
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

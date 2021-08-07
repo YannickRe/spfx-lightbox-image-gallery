@@ -6,7 +6,6 @@ if (process.argv.indexOf('dist') !== -1) {
     process.argv.push('--ship');
 }
 
-const path = require('path');
 const gulp = require('gulp');
 const build = require('@microsoft/sp-build-web');
 const gulpSequence = require('gulp-sequence');
@@ -18,12 +17,17 @@ gulp.task('dist', gulpSequence('clean', 'bundle', 'package-solution'));
 // Create clean development package
 gulp.task('dev', gulpSequence('clean', 'bundle', 'package-solution'));
 
-
-
-
 /**
  * Custom Framework Specific gulp tasks
  */
 
+ var getTasks = build.rig.getTasks;
+ build.rig.getTasks = function () {
+   var result = getTasks.call(build.rig);
+ 
+   result.set('serve', result.get('serve-deprecated'));
+ 
+   return result;
+ };
 
 build.initialize(gulp);
