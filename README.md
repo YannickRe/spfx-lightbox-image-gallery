@@ -1,90 +1,42 @@
-# spfx-sp-images-gallery
+# SharePoint Lightroom Image Gallery Web Part
 
-This project uses [React](https://reactjs.org).
+## Summary
 
-## About 
-***
-This project can be used to display images on a page. 
-Images will be gathered from a SharePoint Picture Library. 
-  
-[![CodeFactor](https://www.codefactor.io/repository/github/creativeacer/spfx-sp-image-display/badge)](https://www.codefactor.io/repository/github/creativeacer/spfx-sp-image-display)
-  
- **If you like the project please Star it** .  
- *Feel free to contribute!*
-   
-Lightroom effect uses the following library:  
-[react-awesome-lightbox](https://theanam.github.io/react-awesome-lightbox/).
-  
+A SharePoint web part, created with SharePoint Framework (SPFx) that visualizes images/photos from a Document Library or Picture Library on a page. It uses the existing folder structure to create albums and puts them in the breadcrumb when opened. Clicking on an image opens a nice Lightbox effect for easy browsing the fullsized versions.
 
-## Core features  
-***
-1. Select SharePoint Image/Document Library   
-2. Navigate through images and folders  
-3. Use breadcrumb to move through the libray  
-4. Show lightroom for images 
-5. Set the amount of columns for the gallery   
-6. Show image title on hover  
-7. Create Picture library from spfx webaprt properties  
+![directory](/assets/SPFxLightRoomImageGalleryWebPart.gif) 
 
-## Usage
+Feature set:
+1. Select SharePoint Picture/Document Library
+2. Navigate through images and folders
+3. Show breadcrumb to visualize context in the library
+4. Show Lightbox effect for images, using [react-lightgallery](https://github.com/VLZH/react-lightgallery)
 
-Install   
-![Install](./src/webparts/imageDisplay/assets/add-webpart.PNG?raw=true "Install")  
-  
-Main-view   
-![Main-view](./src/webparts/imageDisplay/assets/main-view.PNG?raw=true "Main-view")  
-  
-Lightroom-view   
-![Lightroom-view](./src/webparts/imageDisplay/assets/lightroom.PNG?raw=true "Lightroom-view")  
-  
-  
-Demo  
-![Demo](./src/webparts/imageDisplay/assets/ImageDisplayExample.gif)
+## Used SharePoint Framework Version 
+![drop](https://img.shields.io/badge/version-1.12.1-green.svg)
 
-## Global dependencies
+## Applies to
 
-Requires Gulp globally installed:
+* [SharePoint Online](https://docs.microsoft.com/sharepoint/dev/spfx/sharepoint-framework-overview)
+* [Microsoft Teams](https://products.office.com/en-US/microsoft-teams/group-chat-software) - Untested!!
+* [Office 365 tenant](https://docs.microsoft.com/sharepoint/dev/spfx/set-up-your-development-environment)
 
-```shell
-npm install --global gulp
-```
+## Disclaimer
+**THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**
 
-## Building the code
+---
 
-Download & install all dependencies, build, bundle & package the project
+## Minimal Path to Awesome
+Either download [the latest release](https://github.com/YannickRe/spfx-lightbox-image-gallery/releases/latest) OR build it yourself:
+- Clone this repository
+- in the command line run:
+  - `npm install`
+  - `gulp build`
+  - `gulp bundle --ship`
+  - `gulp package-solution --ship`
 
-```shell
-# download & install dependencies
-npm install
+Install the package:
+- Add to AppCatalog and deploy
+- Add the web part `Lightbox Image Gallery` to a SharePoint page
 
-# transpile all TypeScript & SCSS => JavaScript & CSS
-gulp build
-
-# create component bundle & manifest
-gulp bundle
-
-# create SharePoint package
-gulp package-solution
-```
-
-These commands produce the following:
-
-- **./lib**: intermediate-stage commonjs build artifacts
-- **./dist**: bundled script, along with other resources
-- **./temp/deploy**: all resources required by component(s) to deploy to a CDN (when `--ship` argument present)
-
-## Build options
-
-- `gulp clean`: Deletes all build output (**/dist**, **/lib**, **/temp**, etc.).
-- `gulp build`: Transpiles all TypeScript & SCSS to JavaScript & CSS, generates source map files & TypeScript type declaration files
-- `gulp bundle [--ship|-p|--production]`: Runs gulp task **build**, then uses webpack to create the JavaScript bundle(s) and component manifest(s) as defined in **./config/config.json**. The `--ship`, `-p` or `--production` argument specifies a production build that will generate minified bundles.
-- `gulp serve [--ship|-p|--production]`: Runs gulp tasks **build**, **bundle** & starts the local webserver. Depending on the project type, it opens the browser and navigates to the local workbench or specified URL (in the case of extension components). The `--ship`, `-p` or `--production` argument specifies a production build that modifies the resulting package for production hosting rather than local hosting of assets.
-- `gulp package-solution`: Creates the SharePoint Package (**.sppkg**) file.
-- `gulp dist`: Creates a production-ready SharePoint Package (**.sppkg**) file. The following gulp task gets executed in this specific order `gulp clean`, `gulp bundle`, `gulp package-solution.`
-- `gulp dev`: Creates a development-ready SharePoint Package (**.sppkg**) file. The following gulp task will be executed in this specific order `gulp clean`, `gulp bundle`, `gulp package-solution.`
-
-> View all available gulp tasks by running `gulp --tasks`
-
-More information on [SharePoint Framework](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/sharepoint-framework-overview)
-
-Generated with [pnp/spfx](https://github.com/pnp/generator-spfx/).
+---
