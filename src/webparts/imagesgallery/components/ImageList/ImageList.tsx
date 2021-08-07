@@ -2,14 +2,10 @@ import * as React from 'react';
 import styles from './../ImagesGalleryWebPart.module.scss';
 import { IImageListProps } from './IImageListProps';
 import Image from '../Image/Image';
-import { SRLWrapper } from "simple-react-lightbox";
+import { LightgalleryProvider } from "react-lightgallery";
+import "lightgallery.js/dist/css/lightgallery.css";
 
 export default class ImageList extends React.Component<IImageListProps, {}> {
-  private srlOptions = {
-    caption: {
-      captionFontFamily: "\"Segoe UI Web (West European)\",Segoe UI,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif",
-    }
-  };
 
   constructor(props: IImageListProps){
     super(props);
@@ -22,11 +18,15 @@ export default class ImageList extends React.Component<IImageListProps, {}> {
     });
     
     return (
-      <SRLWrapper options={this.srlOptions}>
+      <LightgalleryProvider lightgallerySettings={
+        {
+          counter: false
+        }
+      }>
         <div className={styles.imageList}>
           {allImages}
         </div>
-      </SRLWrapper>
+      </LightgalleryProvider>
     );
   }
 }

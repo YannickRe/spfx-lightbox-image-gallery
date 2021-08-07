@@ -23,7 +23,6 @@ import { WebPartTitle } from "@pnp/spfx-controls-react/lib/WebPartTitle";
 
 import ImageList from '../ImageList/ImageList';
 import { IFolderInfo } from '@pnp/sp/folders';
-import SimpleReactLightbox from 'simple-react-lightbox';
 import FolderList from '../FolderList/FolderList';
 
 export class ImagesGalleryContainer extends React.Component<IImagesGalleryContainerProps, IImagesGalleryContainerState> {
@@ -85,14 +84,14 @@ export class ImagesGalleryContainer extends React.Component<IImagesGalleryContai
       renderWebPartEmptyMessage = <MessageBar messageBarType={MessageBarType.info}>{strings.ShowBlankEditInfoMessage}</MessageBar>;
     }
     renderWebPartContent =
-        <SimpleReactLightbox>
+        <React.Fragment>
           {renderOverlay}
           <Breadcrumb items={this._getBreadCrumbData()} maxDisplayedItems={5} theme={this.props.themeVariant as ITheme} />
           {renderWebPartEmptyMessage}
           <FolderList foldersInfo={subFolders} onClick={async (folderInfo) => await this._fetchDocumentLibraryItems(folderInfo.UniqueId)} />
           {renderLightbox}
           <ImageList rootUrl={this.props.rootUrl} imagesInfo={images} />
-        </SimpleReactLightbox>;
+        </React.Fragment>;
     
     // Error Message
     if (hasError) {

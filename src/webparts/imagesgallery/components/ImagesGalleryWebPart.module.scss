@@ -7,12 +7,14 @@
 .imagesGalleryWebpart {
     .imageList{
         gap: 5px;
-        columns: 150px;
+        columns: 200px;
     }
     
     .imageList img {
         width: 100% !important;
         height: auto !important;
+        pointer-events: auto;
+        cursor: pointer;
     }
 
     .folderList{

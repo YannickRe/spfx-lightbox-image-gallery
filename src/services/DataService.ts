@@ -1,7 +1,7 @@
 import { IDataService } from "../models/IDataService";
 import { sp } from "@pnp/pnpjs";
 import { IFolderInfo, IFolder } from "@pnp/sp/folders";
-import { IFileInfo } from "@pnp/sp/files";
+import { IFileInfo, IFile } from "@pnp/sp/files";
 import { IListInfo } from "@pnp/sp/lists";
 import { IFolderData } from "../models/IFolderData";
 
@@ -26,13 +26,13 @@ export default class DataService implements IDataService {
     }
   
     private async getSubFolders(folder: IFolder): Promise<IFolderInfo[]> {
-        let folders = await folder.folders();
+        let folders = await folder.folders.orderBy("TimeCreated", false).get();
         folders = folders.filter(sf => !sf.IsWOPIEnabled && sf.ItemCount > 0);
         return folders;
     }
 
     private async getFilesFromFolder(folder: IFolder): Promise<IFileInfo[]> {
-        let files = await folder.files();
+        let files = await folder.files.orderBy("TimeCreated", true).get();
         files = files.filter(fileData => ["jpg","jpeg","png"].indexOf(fileData.Name.toLocaleLowerCase().split('.').pop()) !== -1);
         return files;
     } 
