@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@microsoft/rush-stack-compiler-3.9": "0.4.46",
-    "@microsoft/sp-build-web": "1.12.1",
+    "@microsoft/sp-build-web": "1.15.2",
     "@microsoft/sp-module-interfaces": "1.12.1",
     "@microsoft/sp-tslint-rules": "1.12.1",
     "@microsoft/sp-webpart-workbench": "1.12.1",
