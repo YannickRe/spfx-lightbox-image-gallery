@@ -9,7 +9,7 @@ export default class FolderList extends React.Component<IFolderListProps, {}> {
   }
 
   public render(): React.ReactElement<IFolderListProps> {
-    const allFolders = [];
+    const allFolders: JSX.Element[] = [];
     this.props.foldersInfo.forEach((folder, index) => {
       allFolders.push(<Folder key={index} folderInfo={folder} onClick={(folderInfo) => this.props.onClick(folderInfo)} />);
     });

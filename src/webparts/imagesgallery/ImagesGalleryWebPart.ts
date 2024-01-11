@@ -4,20 +4,21 @@ import { Version, Environment, EnvironmentType, DisplayMode } from '@microsoft/s
 import { ThemeProvider, IReadonlyTheme, ThemeChangedEventArgs } from '@microsoft/sp-component-base';
 import {
   IPropertyPaneConfiguration,
-  PropertyPaneDropdown,
-  PropertyPaneSlider
+  PropertyPaneDropdown
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { isEqual, isEmpty } from '@microsoft/sp-lodash-subset';
 
-import { sp } from "@pnp/pnpjs";
 import * as strings from 'ImagesGalleryWebPartStrings';
 import { ImagesGalleryContainer, IImagesGalleryContainerProps } from './components/ImagesGalleryContainer';
 import { IDataService } from '../../models/IDataService';
 import MockDataService from '../../services/MockDataService';
 import DataService from '../../services/DataService';
 import {IImagesGalleryWebPartProps} from './IImagesGalleryWebPartProps';
-import { IListInfo } from '@pnp/sp/lists';
+import { spfi, SPFx } from "@pnp/sp";
+import "@pnp/sp/webs";
+import "@pnp/sp/lists";
+import { IListInfo } from "@pnp/sp/lists";
 import { PropertyPaneHelpers } from '@pnp/spfx-property-controls/lib/helpers';
 
 export default class ImagesGalleryWebPart extends BaseClientSideWebPart<IImagesGalleryWebPartProps> {
@@ -69,7 +70,7 @@ export default class ImagesGalleryWebPart extends BaseClientSideWebPart<IImagesG
       );
     } else {
       if (this.displayMode === DisplayMode.Edit) {
-          const placeholder: React.ReactElement<any> = React.createElement(
+          const placeholder: React.ReactElement<any> = React.createElement( // eslint-disable-line @typescript-eslint/no-explicit-any
               this._placeholder,
               {
                   iconName: strings.PlaceholderIconName,
@@ -91,16 +92,14 @@ export default class ImagesGalleryWebPart extends BaseClientSideWebPart<IImagesG
   public async onInit(): Promise<void> {
     this._initThemeVariant();
 
+    const sp = spfi().using(SPFx(this.context));
+
     if (Environment.type in [EnvironmentType.Local, EnvironmentType.Test]) {
-      this._dataService = new MockDataService();
+      this._dataService = new MockDataService(sp);
     }
     else {
-      this._dataService = new DataService();
+      this._dataService = new DataService(sp);
     }
-
-    sp.setup({
-      spfxContext: this.context
-    });
 
     this._initComplete = true;
 
@@ -161,17 +160,17 @@ export default class ImagesGalleryWebPart extends BaseClientSideWebPart<IImagesG
     this._themeVariant = this._themeProvider.tryGetTheme();
 
     // Register a handler to be notified if the theme variant changes
-    this._themeProvider.themeChangedEvent.add(this, this._handleThemeChangedEvent.bind(this));
+    this._themeProvider.themeChangedEvent.add(this, eventArgs => this._handleThemeChangedEvent(eventArgs));
   }
 
-  private _handleThemeChangedEvent(args: ThemeChangedEventArgs): void {
+  private async _handleThemeChangedEvent(args: ThemeChangedEventArgs): Promise<void> {
     if (!isEqual(this._themeVariant, args.theme)) {
         this._themeVariant = args.theme;
-        this.render();
+        await this.render();
     }
   }
 
-  private _setupWebPart() {
+  private _setupWebPart(): void {
     this.context.propertyPane.open();
   }
 }

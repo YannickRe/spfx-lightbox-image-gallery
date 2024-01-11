@@ -1,5 +1,4 @@
 import { IFolderData } from "../../../../models/IFolderData";
-import { IBreadcrumbItem } from "office-ui-fabric-react/lib/Breadcrumb";
 import { IFolderInfo } from "@pnp/sp/folders";
 
 export interface IImagesGalleryContainerState {

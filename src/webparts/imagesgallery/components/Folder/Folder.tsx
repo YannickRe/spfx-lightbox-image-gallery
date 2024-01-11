@@ -2,8 +2,8 @@ import * as React from 'react';
 import { IFolderProps } from './IFolderProps';
 import styles from '../ImagesGalleryWebPart.module.scss';
 
-const _foldericonright: any = require('./icons/folderIconRight.svg');
-const _foldericonleft: any = require('./icons/folderIconLeft.svg');
+const _foldericonright: string = require('./icons/folderIconRight.svg'); // eslint-disable-line @typescript-eslint/no-var-requires
+const _foldericonleft: string = require('./icons/folderIconLeft.svg'); // eslint-disable-line @typescript-eslint/no-var-requires
 
 export default class Folder extends React.Component<IFolderProps, {}> {
 
@@ -19,7 +19,7 @@ export default class Folder extends React.Component<IFolderProps, {}> {
             <i aria-hidden="true">
               <img src={_foldericonleft} />
             </i>
-            <div className={styles.folderPaper}></div>
+            <div className={styles.folderPaper} />
             <i aria-hidden="true" className={styles.folderFront}>
               <img src={_foldericonright} />
             </i>

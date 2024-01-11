@@ -1,11 +1,10 @@
 {
-  "extends": "./node_modules/@microsoft/rush-stack-compiler-3.9/includes/tsconfig-web.json",
+  "extends": "./node_modules/@microsoft/rush-stack-compiler-4.7/includes/tsconfig-web.json",
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2015",
     "forceConsistentCasingInFileNames": true,
     "module": "esnext",
     "moduleResolution": "node",
-    "resolveJsonModule": true,
     "jsx": "react",
     "declaration": true,
     "sourceMap": true,
@@ -13,6 +12,7 @@
     "skipLibCheck": true,
     "outDir": "lib",
     "inlineSources": false,
+    "noImplicitAny": false,
     "strictNullChecks": false,
     "noUnusedLocals": false,
     "typeRoots": [
@@ -23,10 +23,8 @@
       "webpack-env"
     ],
     "lib": [
-      "es5",
-      "dom",
-      "es2015.collection",
-      "es2015.promise"
+      "es2015",
+      "dom"
     ]
   },
   "include": [

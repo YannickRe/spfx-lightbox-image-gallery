@@ -10,7 +10,7 @@
     },
     "name": "SharePoint Lightbox Image Gallery",
     "id": "a7d34cfc-bc45-4910-9ec5-3e2ca97a5d27",
-    "version": "1.0.0.0",
+    "version": "1.1.0.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false

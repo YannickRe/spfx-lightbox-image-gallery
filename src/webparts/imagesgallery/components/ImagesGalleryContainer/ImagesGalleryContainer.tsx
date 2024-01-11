@@ -18,7 +18,7 @@ import {
   IBreadcrumbItem,
   Overlay,
   ITheme
-} from "office-ui-fabric-react";
+} from '@fluentui/react';
 import { WebPartTitle } from "@pnp/spfx-controls-react/lib/WebPartTitle";
 
 import ImageList from '../ImageList/ImageList';
@@ -43,11 +43,11 @@ export class ImagesGalleryContainer extends React.Component<IImagesGalleryContai
     };
   }  
 
-  public async componentDidMount() {
+  public async componentDidMount(): Promise<void> {
     await this._fetchDocumentLibraryItems(this.props.imageLibraryRootFolderUniqueId, true);
   }
 
-  public async componentDidUpdate(prevProps: IImagesGalleryContainerProps, prevState: IImagesGalleryContainerState) {
+  public async componentDidUpdate(prevProps: IImagesGalleryContainerProps, prevState: IImagesGalleryContainerState): Promise<void> {
     if (!isEqual(this.props, prevProps)) {
       await this._fetchDocumentLibraryItems(this.props.imageLibraryRootFolderUniqueId, true);
     }
@@ -66,7 +66,7 @@ export class ImagesGalleryContainer extends React.Component<IImagesGalleryContai
     let renderWebPartContent: JSX.Element = null;
     let renderWebPartEmptyMessage: JSX.Element = null;
     let renderOverlay: JSX.Element = null;
-    let renderLightbox: JSX.Element = null;
+    const renderLightbox: JSX.Element = null;
 
     // Loading behavior
     if (areResultsLoading) {
@@ -121,7 +121,7 @@ export class ImagesGalleryContainer extends React.Component<IImagesGalleryContai
       return [folder];
     }
 
-    let existingItemIndex = findIndex(prevBreadCrumbState, f => f.UniqueId === folder.UniqueId);
+    const existingItemIndex = findIndex(prevBreadCrumbState, f => f.UniqueId === folder.UniqueId);
     if (existingItemIndex > -1) {
       return prevBreadCrumbState.slice(0, existingItemIndex + 1);
     }
@@ -137,7 +137,7 @@ export class ImagesGalleryContainer extends React.Component<IImagesGalleryContai
         errorMessage: ""
       });
 
-      let folderData = await this.props.dataService.getFolderData(uniqueFolderId);
+      const folderData = await this.props.dataService.getFolderData(uniqueFolderId);
 
       this.setState((prevState) => ({
         areResultsLoading: false,

@@ -1,8 +1,14 @@
+import { SPFI } from "@pnp/sp";
 import { IDataService } from "../models/IDataService";
 
 export default class MockDataService implements IDataService {
+  private _sp: SPFI;
+  
+  constructor(sp: SPFI) {
+    this._sp = sp;
+  }
 
-  public getLists(): Promise<any> {
+  public getLists(): Promise<any> { // eslint-disable-line @typescript-eslint/no-explicit-any
       return Promise.resolve([{
         Id: 1,
         Title: "List One",
@@ -11,7 +17,7 @@ export default class MockDataService implements IDataService {
       }]);
   }
 
-  public getFolderData(listName: string) : Promise<any> {
+  public getFolderData(listName: string) : Promise<any> { // eslint-disable-line @typescript-eslint/no-explicit-any
     return Promise.resolve({
       Id: 1,
       Title: "string",
@@ -20,11 +26,11 @@ export default class MockDataService implements IDataService {
     });
   }
 
-  private getFoldersFromList(path: string): Promise<any> {
+  private getFoldersFromList(path: string): Promise<any> { // eslint-disable-line @typescript-eslint/no-explicit-any
     return Promise.resolve();
   }
 
-  private getFilesFromFolder(path: string): Promise<any> {
+  private getFilesFromFolder(path: string): Promise<any> { // eslint-disable-line @typescript-eslint/no-explicit-any
     return Promise.resolve();
   }
 }
